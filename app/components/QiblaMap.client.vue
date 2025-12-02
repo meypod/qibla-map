@@ -12,6 +12,7 @@ import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
 import type { CompassCheckResult } from "./CompassChecker.client.vue";
+import compassIcon from "@/assets/explore.svg?url";
 
 const props = defineProps<{
   userCoordinates: [number, number];
@@ -79,13 +80,18 @@ const userCoordinatesLngLat = computed(
   () => new LngLat(props.userCoordinates[0], props.userCoordinates[1]),
 );
 
+const qiblaDegrees = computed(() => {
+  const long = props.userCoordinates[0];
+  const lat = props.userCoordinates[1];
+  return Qibla(new Coordinates(lat, long));
+});
 const qiblaDirCoords = computed(() => {
   const long = props.userCoordinates[0];
   const lat = props.userCoordinates[1];
   const qibla = getDirectionSecondPoint({
     long,
     lat,
-    degree: Qibla(new Coordinates(lat, long)),
+    degree: qiblaDegrees.value,
   });
   return [qibla.long, qibla.lat];
 });
@@ -103,6 +109,41 @@ const qiblaLine = computed<GeoJSON>(() => ({
   ],
 }));
 
+const compassDegrees = ref(0);
+
+const userDirCoords = computed(() => {
+  const long = props.userCoordinates[0];
+  const lat = props.userCoordinates[1];
+  const userDirection = getDirectionSecondPoint({
+    long,
+    lat,
+    degree: compassDegrees.value,
+  });
+  return [userDirection.long, userDirection.lat];
+});
+
+const userLine = computed<GeoJSON>(() => ({
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: [props.userCoordinates, userDirCoords.value],
+      },
+    },
+  ],
+}));
+
+const isFacingKaaba = computed(
+  () => Math.abs(compassDegrees.value - qiblaDegrees.value) < 1,
+);
+
+const compassLockEnabled = ref(false);
+
+const listeningToOrientation = ref(false);
+
 const map = useMap();
 
 function onMapMove() {
@@ -110,6 +151,47 @@ function onMapMove() {
   if (mapCenter && mapCenter.distanceTo(userCoordinatesLngLat.value) > 1) {
     map.map?.setCenter(props.userCoordinates);
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function onOrientationChanged(e: any) {
+  compassDegrees.value = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const evtOptions = { passive: true } as any;
+
+function stopListentingToOrientation() {
+  const evt = props.compassCheckResult?.eventlistener;
+  if (typeof evt === "string") {
+    window.removeEventListener(evt, onOrientationChanged, evtOptions);
+  }
+}
+
+function startListeningToOrientation() {
+  const evt = props.compassCheckResult?.eventlistener;
+  if (typeof evt === "string") {
+    window.addEventListener(evt, onOrientationChanged, evtOptions);
+  }
+}
+
+watch(
+  () => props.compassCheckResult,
+  () => {
+    if (listeningToOrientation.value) {
+      if (props.compassCheckResult?.available === false) {
+        stopListentingToOrientation();
+      }
+      return;
+    } else if (props.compassCheckResult?.available === true) {
+      startListeningToOrientation();
+    }
+  },
+);
+
+function toggleCompassLock() {
+  if (props.compassCheckResult?.available !== true) return;
+  compassLockEnabled.value = !compassLockEnabled.value;
 }
 </script>
 
@@ -158,6 +240,37 @@ function onMapMove() {
         }"
       />
     </mgl-geo-json-source>
+
+    <mgl-geo-json-source
+      v-if="compassLockEnabled"
+      source-id="user_line"
+      :data="userLine"
+    >
+      <MglLineLayer
+        layer-id="user_line"
+        :layout="{
+          'line-cap': 'round',
+          'line-join': 'round',
+        }"
+        :paint="{
+          'line-color': isFacingKaaba ? '#59cf78' : '#000',
+          'line-width': 3,
+        }"
+      />
+    </mgl-geo-json-source>
+    <button
+      v-if="compassCheckResult?.available"
+      class="p-1 flex items-center fixed bottom-1 border left-1 text-white gap-1 rounded text-sm"
+      :class="{
+        'bg-black/60 border-black/50': !compassLockEnabled,
+        'bg-cyan-600 border-cyan-400': compassLockEnabled,
+      }"
+      dir="ltr"
+      @click="toggleCompassLock"
+    >
+      <img :src="compassIcon" alt="compass icon" />
+      Compass Lock
+    </button>
   </mgl-map>
 </template>
 

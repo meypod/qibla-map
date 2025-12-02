@@ -31,7 +31,7 @@
 
           <div class="flex gap-2 justify-center mt-3">
             <button
-              class="p-2 bg-sky-600 text-white rounded disabled:bg-sky-200 disabled:cursor-not-allowed"
+              class="p-2 bg-green-600 text-white rounded disabled:bg-sky-200 disabled:cursor-not-allowed"
               :disabled="!result"
               @click="emitResult"
             >
@@ -55,6 +55,13 @@
         </p>
         <div class="flex gap-2">
           <button
+            class="p-2 bg-green-600 text-white rounded disabled:bg-sky-200 disabled:cursor-not-allowed"
+            :disabled="!result"
+            @click="emitResult"
+          >
+            Open Map
+          </button>
+          <button
             class="p-2 bg-sky-600 text-white rounded flex items-center justify-center gap-1"
             :disabled="gettingLocation"
             @click="tryRequestPermission"
@@ -69,14 +76,14 @@
         <label class="block text-sm">Manual coordinates (lat, lon)</label>
         <div class="flex gap-2 mt-2 justify-center">
           <input
-            v-model.number="manualLat"
+            v-model.number="savedCoords.lat"
             type="number"
             step="any"
             placeholder="Latitude"
             class="p-2 border rounded w-32"
           />
           <input
-            v-model.number="manualLon"
+            v-model.number="savedCoords.long"
             type="number"
             step="any"
             placeholder="Longitude"
@@ -112,22 +119,23 @@ const emit = defineEmits<{
 
 const available = ref<boolean | null>(null);
 const result = ref<LocationCheckResult | null>(null);
-const manualLat = ref<number | null>(null);
-const manualLon = ref<number | null>(null);
+const savedCoords = useLocalStorage<{
+  lat: null | number;
+  long: null | number;
+}>("saved_coords", { lat: null, long: null });
 const parseError = ref<string | null>(null);
 const gettingLocation = ref(false);
 
-watch(
-  () => `${manualLat.value}|${manualLon.value}`,
-  () => {
-    if (manualLat.value != null && manualLon.value != null) {
-      result.value = {
-        available: false,
-        coordinates: [manualLon.value, manualLat.value],
-      };
-    }
-  },
-);
+function runCheck() {
+  if (savedCoords.value.lat != null && savedCoords.value.long != null) {
+    result.value = {
+      available: false,
+      coordinates: [savedCoords.value.long, savedCoords.value.lat],
+    };
+  }
+}
+
+watch(() => savedCoords.value, runCheck);
 
 function emitResult() {
   if (!result.value) return;
@@ -241,8 +249,10 @@ async function pasteCoordinates() {
     return;
   }
 
-  manualLat.value = parsed[0];
-  manualLon.value = parsed[1];
+  savedCoords.value = {
+    lat: parsed[0],
+    long: parsed[1],
+  };
 
   // Small UI nicety: clear any previous error after a tick
   await nextTick();
@@ -287,6 +297,7 @@ onMounted(() => {
   } else {
     available.value = false;
   }
+  runCheck();
 });
 </script>
 
