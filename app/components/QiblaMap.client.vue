@@ -116,6 +116,7 @@ function onMapMove() {
 <template>
   <mgl-map
     ref="map"
+    key="map"
     :map-style="mapStyle"
     :min-zoom="12"
     :zoom="10"
