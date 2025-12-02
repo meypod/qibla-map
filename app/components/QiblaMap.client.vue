@@ -11,9 +11,11 @@ import {
 import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
+import type { CompassCheckResult } from "./CompassChecker.client.vue";
 
 const props = defineProps<{
   userCoordinates: [number, number];
+  compassCheckResult: CompassCheckResult | null;
 }>();
 
 function getDirectionSecondPoint({

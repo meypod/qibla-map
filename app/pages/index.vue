@@ -9,7 +9,12 @@
     key="location-checker"
     @result="onLocationResult"
   />
-  <qibla-map v-else key="qibla-map" :user-coordinates="userCoordinates" />
+  <qibla-map
+    v-else
+    key="qibla-map"
+    :user-coordinates="userCoordinates"
+    :compass-check-result="compassCheckResult"
+  />
 </template>
 
 <script setup lang="ts">
