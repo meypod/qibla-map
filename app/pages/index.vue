@@ -1,13 +1,15 @@
 <template>
-  <compass-checker
-    v-if="compassCheckResult === null"
-    @result="onCompassResult"
-  />
-  <location-checker
-    v-else-if="locationCheckResult === null"
-    @result="onLocationResult"
-  />
-  <qibla-map v-else :user-coordinates="userCoordinates" />
+  <client-only>
+    <compass-checker
+      v-if="compassCheckResult === null"
+      @result="onCompassResult"
+    />
+    <location-checker
+      v-else-if="locationCheckResult === null"
+      @result="onLocationResult"
+    />
+    <qibla-map v-else :user-coordinates="userCoordinates" />
+  </client-only>
 </template>
 
 <script setup lang="ts">
