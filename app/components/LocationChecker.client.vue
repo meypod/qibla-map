@@ -130,10 +130,7 @@ function emitResult() {
 function parseClipboardToCoords(text: string): [number, number] | null {
   if (!text) return null;
   // Replace degree symbols and commas with spaces to simplify parsing
-  const cleaned = text
-    .replace(/[°,'"]/g, " ")
-    .replaceAll(/(and|latitude|longitude)/g, "")
-    .trim();
+  const cleaned = text.replaceAll(/(and|latitude|longitude)/g, "").trim();
   // Normalize common quote characters to simple ASCII variants
   const norm = cleaned
     .replace(/[‘’′]/g, "'")
