@@ -27,8 +27,9 @@
 
           <div class="flex gap-2 justify-center mt-3">
             <button
-              class="p-2 bg-sky-600 text-white rounded"
-              @click="emitResultWithManual"
+              class="p-2 bg-sky-600 text-white rounded disabled:bg-sky-200 disabled:cursor-not-allowed"
+              :disabled="!result"
+              @click="emitResult"
             >
               Open Map
             </button>
@@ -101,33 +102,27 @@ const emit = defineEmits<{
 }>();
 
 const available = ref<boolean | null>(null);
-const coords = ref<[number, number] | null>(null);
+const result = ref<LocationCheckResult | null>(null);
 const manualLat = ref<number | null>(null);
 const manualLon = ref<number | null>(null);
 const parseError = ref<string | null>(null);
 
+watch(
+  () => `${manualLat.value}|${manualLon.value}`,
+  () => {
+    if (manualLat.value != null && manualLon.value != null) {
+      result.value = {
+        available: false,
+        coordinates: [manualLon.value, manualLat.value],
+      };
+    }
+  },
+);
+
 function emitResult() {
-  if (!coords.value) return;
-  emit("result", {
-    available: true,
-    coordinates: coords.value,
-  });
+  if (!result.value) return;
+  emit("result", result.value);
 }
-
-function emitResultWithManual() {
-  // If we have fetched coords, use them; otherwise prefer manual if provided
-  if (coords.value) {
-    emit("result", { available: true, coordinates: coords.value });
-    return;
-  }
-  if (manualLat.value != null && manualLon.value != null) {
-    emit("result", {
-      available: false,
-      coordinates: [manualLon.value, manualLat.value],
-    });
-  }
-}
-
 /**
  * Try to parse clipboard text into [lat, lon].
  * Accepts formats like "35.6895, 139.6917", "35.6895 N, 139.6917 E",
@@ -205,8 +200,10 @@ async function pasteCoordinates() {
     return;
   }
 
-  manualLat.value = parsed[0];
-  manualLon.value = parsed[1];
+  result.value = {
+    available: false,
+    coordinates: [parsed[1], parsed[0]],
+  };
 
   // Small UI nicety: clear any previous error after a tick
   await nextTick();
@@ -223,7 +220,10 @@ function tryRequestPermission() {
   navigator.geolocation.getCurrentPosition(
     (position) => {
       available.value = true;
-      coords.value = [position.coords.longitude, position.coords.latitude];
+      result.value = {
+        available: true,
+        coordinates: [position.coords.longitude, position.coords.latitude],
+      };
       emitResult();
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
