@@ -198,10 +198,8 @@ async function pasteCoordinates() {
     return;
   }
 
-  result.value = {
-    available: false,
-    coordinates: [parsed[1], parsed[0]],
-  };
+  manualLat.value = parsed[0];
+  manualLon.value = parsed[1];
 
   // Small UI nicety: clear any previous error after a tick
   await nextTick();
