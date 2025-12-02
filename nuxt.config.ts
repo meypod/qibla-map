@@ -19,7 +19,7 @@ export default defineNuxtConfig({
 
   pwa: {
     registerType: "autoUpdate",
-    injectRegister: false,
+    injectRegister: "auto",
 
     pwaAssets: {
       disabled: false,
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
       short_name: "Qibla Map",
       description:
         "a simple Qibla finder that shows Qibla direction on the map",
-      theme_color: "#ffffff",
+      theme_color: "#343434",
     },
 
     workbox: {
@@ -57,5 +57,9 @@ export default defineNuxtConfig({
     client: {
       installPrompt: true,
     },
+  },
+
+  experimental: {
+    payloadExtraction: true,
   },
 });
