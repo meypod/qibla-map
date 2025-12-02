@@ -165,6 +165,7 @@ function stopListentingToOrientation() {
   const evt = props.compassCheckResult?.eventlistener;
   if (typeof evt === "string") {
     window.removeEventListener(evt, onOrientationChanged, evtOptions);
+    listeningToOrientation.value = false;
   }
 }
 
@@ -172,6 +173,7 @@ function startListeningToOrientation() {
   const evt = props.compassCheckResult?.eventlistener;
   if (typeof evt === "string") {
     window.addEventListener(evt, onOrientationChanged, evtOptions);
+    listeningToOrientation.value = true;
   }
 }
 
@@ -192,7 +194,31 @@ watch(
 function toggleCompassLock() {
   if (props.compassCheckResult?.available !== true) return;
   compassLockEnabled.value = !compassLockEnabled.value;
+  if (compassLockEnabled.value) {
+    if (!listeningToOrientation.value) {
+      startListeningToOrientation();
+    }
+    // immediately align map bearing with the current compass heading
+    try {
+      map.map?.rotateTo(compassDegrees.value, { duration: 0 });
+    } catch {
+      // ignore if map isn't ready yet
+    }
+  }
 }
+
+watch(
+  () => compassDegrees.value,
+  (val) => {
+    if (!compassLockEnabled.value) return;
+    if (!map?.map) return;
+    try {
+      map.map.rotateTo(val);
+    } catch {
+      // swallow errors if rotate isn't available yet
+    }
+  },
+);
 </script>
 
 <template>
