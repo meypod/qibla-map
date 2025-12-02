@@ -1,0 +1,44 @@
+{
+  "name": "qibla_map_pwa",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lintfix": "eslint . --fix",
+    "generate-pwa-assets": "pwa-assets-generator"
+  },
+  "dependencies": {
+    "@indoorequal/vue-maplibre-gl": "^8.4.2",
+    "@nuxt/eslint": "1.11.0",
+    "@nuxtjs/tailwindcss": "6.14.0",
+    "@vite-pwa/assets-generator": "^1.0.2",
+    "@vite-pwa/nuxt": "^1.1.0",
+    "@vueuse/nuxt": "14.1.0",
+    "adhan": "^4.4.3",
+    "eslint": "^9.0.0",
+    "maplibre-gl": "^5.13.0",
+    "nuxt": "^4.2.1",
+    "vite-plugin-pwa": "^1.2.0",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3",
+    "workbox-build": "^7.4.0",
+    "workbox-window": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.7.3",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.1.0"
+  },
+  "resolutions": {
+    "sharp": "^0.33.5",
+    "sharp-ico": "^0.1.5"
+  },
+  "packageManager": "pnpm@10.8.0+sha512.0e82714d1b5b43c74610193cb20734897c1d00de89d0e18420aebc5977fa13d780a9cb05734624e81ebd81cc876cd464794850641c48b9544326b5622ca29971"
+}
