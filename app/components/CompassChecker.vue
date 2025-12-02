@@ -7,7 +7,7 @@
         <p>Checking your device capabilities</p>
         <p>Please wait</p>
       </div>
-      <div v-else-if="compassWorking !== null" class="text-yellow-600">
+      <div v-else-if="compassWorking !== null" class="text-orange-700">
         <div v-if="!compassWorking">
           <p>Your browser cannot access Device Orientation events.</p>
           <p class="mb-2">Compass functionality will be unavailable</p>
