@@ -6,9 +6,9 @@
       <div v-if="available !== null" class="text-yellow-600">
         <div v-if="available">
           <p class="mb-2">Location access granted.</p>
-          <p v-if="coords">
-            Latitude: {{ coords[0].toFixed(6) }}, Longitude:
-            {{ coords[1].toFixed(6) }}
+          <p v-if="result">
+            Latitude: {{ result.coordinates[0].toFixed(6) }}, Longitude:
+            {{ result.coordinates[1].toFixed(6) }}
           </p>
           <div class="flex gap-2 justify-center mt-3">
             <button class="p-2 border rounded" @click="refreshLocation">
