@@ -1,9 +1,7 @@
-<script setup lang="ts">
-// you can extract the <ClientOnly> component to a separate file
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main style="width: 100%; height: 100%">
+  <main>
     <slot />
     <ClientOnly>
       <div
@@ -39,6 +37,10 @@
 </template>
 
 <style>
+main {
+  width: 100%;
+  height: 100%;
+}
 .pwa-toast {
   position: fixed;
   right: 0;

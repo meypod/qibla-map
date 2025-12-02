@@ -1,20 +1,20 @@
 <template>
-  <client-only>
-    <compass-checker
-      v-if="compassCheckResult === null"
-      @result="onCompassResult"
-    />
-    <location-checker
-      v-else-if="locationCheckResult === null"
-      @result="onLocationResult"
-    />
-    <qibla-map v-else :user-coordinates="userCoordinates" />
-  </client-only>
+  <compass-checker
+    v-if="compassCheckResult === null"
+    key="compass-checker"
+    @result="onCompassResult"
+  />
+  <location-checker
+    v-else-if="locationCheckResult === null"
+    key="location-checker"
+    @result="onLocationResult"
+  />
+  <qibla-map v-else key="qibla-map" :user-coordinates="userCoordinates" />
 </template>
 
 <script setup lang="ts">
-import type { CompassCheckResult } from "~/components/CompassChecker.vue";
-import type { LocationCheckResult } from "~/components/LocationChecker.vue";
+import type { CompassCheckResult } from "~/components/CompassChecker.client.vue";
+import type { LocationCheckResult } from "~/components/LocationChecker.client.vue";
 
 const { coords, resume } = useGeolocation({
   enableHighAccuracy: true,

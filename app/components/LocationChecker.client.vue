@@ -88,8 +88,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
-
 export type LocationCheckResult = {
   /** is GPS location available and allowed? */
   available: boolean;
