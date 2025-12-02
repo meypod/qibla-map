@@ -7,6 +7,7 @@ import {
   useMap,
   MglLineLayer,
   MglGeoJsonSource,
+  MglAttributionControl,
 } from "@indoorequal/vue-maplibre-gl";
 import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
@@ -229,8 +230,10 @@ watch(
     :center="userCoordinates"
     :drag-pan="false"
     :box-zoom="false"
+    :attribution-control="false"
     @map:moveend="onMapMove"
   >
+    <MglAttributionControl :compact="true" />
     <mgl-navigation-control
       :show-compass="true"
       :position="Position.TOP_LEFT"
