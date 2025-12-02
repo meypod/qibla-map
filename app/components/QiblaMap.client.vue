@@ -213,7 +213,7 @@ watch(
     if (!compassLockEnabled.value) return;
     if (!map?.map) return;
     try {
-      map.map.rotateTo(val);
+      map.map.rotateTo(val, { duration: 0 });
     } catch {
       // swallow errors if rotate isn't available yet
     }
