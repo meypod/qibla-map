@@ -11,7 +11,11 @@
             {{ result.coordinates[1].toFixed(6) }}
           </p>
           <div class="flex gap-2 justify-center mt-3">
-            <button class="p-2 border rounded" @click="refreshLocation">
+            <button
+              class="p-2 border rounded"
+              :disabled="gettingLocation"
+              @click="refreshLocation"
+            >
               Refresh
             </button>
           </div>
@@ -33,8 +37,13 @@
             >
               Open Map
             </button>
-            <button class="p-2 border rounded" @click="tryRequestPermission">
+            <button
+              class="p-2 border rounded flex items-center justify-center gap-1"
+              :disabled="gettingLocation"
+              @click="tryRequestPermission"
+            >
               Try Again
+              <spinner v-if="gettingLocation" />
             </button>
           </div>
         </div>
@@ -46,10 +55,12 @@
         </p>
         <div class="flex gap-2">
           <button
-            class="p-2 bg-sky-600 text-white rounded"
+            class="p-2 bg-sky-600 text-white rounded flex items-center justify-center gap-1"
+            :disabled="gettingLocation"
             @click="tryRequestPermission"
           >
-            Allow Location Access
+            Get Location
+            <spinner v-if="gettingLocation" />
           </button>
         </div>
       </div>
@@ -104,6 +115,7 @@ const result = ref<LocationCheckResult | null>(null);
 const manualLat = ref<number | null>(null);
 const manualLon = ref<number | null>(null);
 const parseError = ref<string | null>(null);
+const gettingLocation = ref(false);
 
 watch(
   () => `${manualLat.value}|${manualLon.value}`,
@@ -244,8 +256,10 @@ function tryRequestPermission() {
     return;
   }
 
+  gettingLocation.value = true;
   navigator.geolocation.getCurrentPosition(
     (position) => {
+      gettingLocation.value = false;
       available.value = true;
       result.value = {
         available: true,
@@ -256,6 +270,7 @@ function tryRequestPermission() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (err) => {
       available.value = false;
+      gettingLocation.value = false;
     },
     { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
   );
