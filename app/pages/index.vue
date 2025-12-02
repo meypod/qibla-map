@@ -41,7 +41,9 @@ function onLocationResult(e: LocationCheckResult) {
 }
 
 watch(coords, () => {
-  userCoordinates.value = [coords.value.longitude, coords.value.latitude];
+  if (locationCheckResult.value?.available) {
+    userCoordinates.value = [coords.value.longitude, coords.value.latitude];
+  }
 });
 </script>
 
