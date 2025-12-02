@@ -1,17 +1,14 @@
 <template>
   <compass-checker
     v-if="compassCheckResult === null"
-    key="compass-checker"
     @result="onCompassResult"
   />
   <location-checker
     v-else-if="locationCheckResult === null"
-    key="location-checker"
     @result="onLocationResult"
   />
   <qibla-map
     v-else
-    key="qibla-map"
     :user-coordinates="userCoordinates"
     :compass-check-result="compassCheckResult"
   />
