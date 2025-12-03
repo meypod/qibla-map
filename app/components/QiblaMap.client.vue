@@ -300,6 +300,18 @@ watch(
       <img :src="compassIcon" alt="compass icon" />
       Compass Lock
     </button>
+
+    <div
+      v-if="compassLockEnabled"
+      class="flex justify-center items-center bg-black/50 fixed top-0 left-1/2 -translate-x-1/2"
+      aria-live="polite"
+      :aria-label="
+        isFacingKaaba ? 'You are facing Kaaba' : 'You are not facing Kaaba'
+      "
+    >
+      <CheckIcon v-if="isFacingKaaba" class="text-[#59cf78] size-11" />
+      <CrossIcon v-else class="text-red-400 size-11" />
+    </div>
   </mgl-map>
 </template>
 
