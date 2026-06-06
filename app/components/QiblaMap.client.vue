@@ -13,6 +13,7 @@ import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
 import type { CompassCheckResult } from "./CompassChecker.client.vue";
+import { getDeclination } from "@/utils/geomag";
 import compassIcon from "@/assets/explore.svg?url";
 
 const props = defineProps<{
@@ -110,7 +111,21 @@ const qiblaLine = computed<GeoJSON>(() => ({
   ],
 }));
 
-const compassDegrees = ref(0);
+// Raw device compass heading, measured against MAGNETIC north.
+const magneticHeading = ref(0);
+
+// Magnetic declination at the user's location (WMM2025): the angle from
+// magnetic to true north, east positive. The Qibla bearing (adhan) and the
+// map are both referenced to TRUE north, so the magnetic heading must be
+// corrected before it can be compared with them.
+const declination = computed(() =>
+  getDeclination(props.userCoordinates[1], props.userCoordinates[0]),
+);
+
+// True-north heading, wrapped to [0, 360).
+const compassDegrees = computed(
+  () => (((magneticHeading.value + declination.value) % 360) + 360) % 360,
+);
 
 const userDirCoords = computed(() => {
   const long = props.userCoordinates[0];
@@ -156,7 +171,9 @@ function onMapMove() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onOrientationChanged(e: any) {
-  compassDegrees.value = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+  // webkitCompassHeading (iOS) can legitimately be 0 (due north), so coalesce
+  // on null/undefined rather than falsy. Both it and `alpha` are magnetic.
+  magneticHeading.value = e.webkitCompassHeading ?? Math.abs(e.alpha - 360);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
