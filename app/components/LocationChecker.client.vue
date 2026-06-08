@@ -5,10 +5,10 @@
     >
       <div v-if="available !== null" class="text-yellow-600">
         <div v-if="available">
-          <p class="mb-2">Location access granted.</p>
+          <p class="mb-2">{{ t("locationAccessGranted") }}</p>
           <p v-if="result">
-            Latitude: {{ result.coordinates[0].toFixed(6) }}, Longitude:
-            {{ result.coordinates[1].toFixed(6) }}
+            {{ t("latitude") }}: {{ result.coordinates[0].toFixed(6) }},
+            {{ t("longitude") }}: {{ result.coordinates[1].toFixed(6) }}
           </p>
           <div class="flex gap-2 justify-center mt-3">
             <button
@@ -16,17 +16,17 @@
               :disabled="gettingLocation"
               @click="refreshLocation"
             >
-              Refresh
+              {{ t("refresh") }}
             </button>
           </div>
         </div>
 
         <div v-else>
           <p class="mb-2">
-            Your browser cannot access Geolocation or permission was denied.
+            {{ t("geolocationDenied") }}
           </p>
           <p class="mb-2">
-            You can enter coordinates manually to open the map.
+            {{ t("enterManually") }}
           </p>
 
           <div class="flex gap-2 justify-center mt-3">
@@ -35,14 +35,14 @@
               :disabled="!result"
               @click="emitResult"
             >
-              Open Map
+              {{ t("openMap") }}
             </button>
             <button
               class="p-2 border rounded flex items-center justify-center gap-1"
               :disabled="gettingLocation"
               @click="tryRequestPermission"
             >
-              Try Again
+              {{ t("tryAgain") }}
               <spinner v-if="gettingLocation" />
             </button>
           </div>
@@ -51,7 +51,7 @@
 
       <div v-else class="flex flex-col gap-2 items-center">
         <p class="mb-2">
-          This device may require permission to access location.
+          {{ t("permissionNeededLocation") }}
         </p>
         <div class="flex gap-2">
           <button
@@ -59,42 +59,42 @@
             :disabled="!result"
             @click="emitResult"
           >
-            Open Map
+            {{ t("openMap") }}
           </button>
           <button
             class="p-2 bg-sky-600 text-white rounded flex items-center justify-center gap-1"
             :disabled="gettingLocation"
             @click="tryRequestPermission"
           >
-            Get Location
+            {{ t("getLocation") }}
             <spinner v-if="gettingLocation" />
           </button>
         </div>
       </div>
 
       <div class="mt-4">
-        <label class="block text-sm">Manual coordinates (lat, lon)</label>
+        <label class="block text-sm">{{ t("manualCoordsLabel") }}</label>
         <div class="flex gap-2 mt-2 justify-center">
           <input
             v-model.number="savedCoords.lat"
             type="number"
             step="any"
-            placeholder="Latitude"
+            :placeholder="t('latitude')"
             class="p-2 border rounded w-32"
           />
           <input
             v-model.number="savedCoords.long"
             type="number"
             step="any"
-            placeholder="Longitude"
+            :placeholder="t('longitude')"
             class="p-2 border rounded w-32"
           />
           <button
             class="p-2 bg-gray-200 rounded"
-            title="Paste coordinates from clipboard"
+            :title="t('pasteTitle')"
             @click="pasteCoordinates"
           >
-            Paste
+            {{ t("paste") }}
           </button>
         </div>
         <p v-if="parseError" class="text-red-600 mt-2 text-sm">
@@ -116,6 +116,8 @@ export type LocationCheckResult = {
 const emit = defineEmits<{
   (e: "result", result: LocationCheckResult): void;
 }>();
+
+const { t } = useI18n();
 
 const available = ref<boolean | null>(null);
 const result = ref<LocationCheckResult | null>(null);
@@ -231,21 +233,21 @@ async function pasteCoordinates() {
       text = await navigator.clipboard.readText();
     } else {
       // Fallback: prompt the user to paste manually
-      text = window.prompt("Paste coordinates here:");
+      text = window.prompt(t("pastePrompt"));
     }
   } catch {
     // If clipboard access fails, fallback to prompt
-    text = window.prompt("Paste coordinates here:");
+    text = window.prompt(t("pastePrompt"));
   }
 
   if (!text) {
-    parseError.value = "No clipboard text available.";
+    parseError.value = t("noClipboard");
     return;
   }
 
   const parsed = parseClipboardToCoords(text);
   if (!parsed) {
-    parseError.value = "Could not parse coordinates from clipboard.";
+    parseError.value = t("parseError");
     return;
   }
 

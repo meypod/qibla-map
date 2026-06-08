@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { t } = useI18n();
+</script>
 
 <template>
   <main>
@@ -12,12 +14,12 @@
       >
         <div class="message">
           <span id="toast-message">
-            New content available, click on reload button to update
+            {{ t("pwaUpdateAvailable") }}
           </span>
         </div>
         <div class="buttons">
-          <button @click="$pwa.updateServiceWorker()">Reload</button>
-          <button @click="$pwa.cancelPrompt()">Close</button>
+          <button @click="$pwa.updateServiceWorker()">{{ t("reload") }}</button>
+          <button @click="$pwa.cancelPrompt()">{{ t("close") }}</button>
         </div>
       </div>
       <div
@@ -27,10 +29,10 @@
         aria-labelledby="install-pwa"
       >
         <div class="message">
-          <span id="install-pwa"> Install PWA </span>
+          <span id="install-pwa"> {{ t("installPwa") }} </span>
         </div>
-        <button @click="$pwa.install()">Install</button>
-        <button @click="$pwa.cancelInstall()">Cancel</button>
+        <button @click="$pwa.install()">{{ t("install") }}</button>
+        <button @click="$pwa.cancelInstall()">{{ t("cancel") }}</button>
       </div>
     </ClientOnly>
   </main>

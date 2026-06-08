@@ -4,33 +4,32 @@
       class="md:bg-gray-100 md:shadow-sm md:rounded-lg p-4 w-full md:w-auto text-center"
     >
       <div v-if="compassWorking === null">
-        <p>Checking your device capabilities</p>
-        <p>Please wait</p>
+        <p>{{ t("checkingCapabilities") }}</p>
+        <p>{{ t("pleaseWait") }}</p>
       </div>
       <div v-else-if="compassWorking !== null" class="text-orange-700">
         <div v-if="!compassWorking">
-          <p>Your browser cannot access Device Orientation events.</p>
-          <p class="mb-2">Compass functionality will be unavailable</p>
+          <p>{{ t("noOrientation") }}</p>
+          <p class="mb-2">{{ t("compassUnavailable") }}</p>
           <button class="p-2 bg-sky-600 text-white rounded" @click="emitResult">
-            Get Location
+            {{ t("getLocation") }}
           </button>
         </div>
-        <div v-else>Openning map...</div>
+        <div v-else>{{ t("openingMap") }}</div>
       </div>
       <div
         v-else-if="isIOS && !permissionRequested"
         class="flex flex-col gap-2 items-center"
       >
         <p>
-          This device may require permission to access motion sensors for
-          compass functionality.
+          {{ t("permissionNeededMotion") }}
         </p>
 
         <button
           class="p-2 bg-sky-600 text-white rounded"
           @click="requestPermission"
         >
-          Allow Motion Access
+          {{ t("allowMotion") }}
         </button>
       </div>
     </div>
@@ -48,6 +47,8 @@ export type CompassCheckResult = {
 const emit = defineEmits<{
   (e: "result", result: CompassCheckResult): void;
 }>();
+
+const { t } = useI18n();
 
 const compassSupported = ref<boolean | null>(null);
 const compassWorking = ref<boolean | null>(null);

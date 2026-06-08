@@ -1,0 +1,571 @@
+// All user-facing strings, keyed per locale. `en` is the source of truth:
+// every other locale must provide the same keys (enforced by the Messages type).
+
+export const LOCALES = [
+  "en",
+  "fa",
+  "ar",
+  "tr",
+  "id",
+  "fr",
+  "ur",
+  "hi",
+  "de",
+  "bs",
+  "vi",
+  "bn",
+  "sw",
+] as const;
+
+export type Locale = (typeof LOCALES)[number];
+
+// Right-to-left locales. Used to set the document `dir`.
+export const RTL_LOCALES: ReadonlySet<Locale> = new Set<Locale>([
+  "fa",
+  "ar",
+  "ur",
+]);
+
+const en = {
+  locationAccessGranted: "Location access granted.",
+  latitude: "Latitude",
+  longitude: "Longitude",
+  refresh: "Refresh",
+  geolocationDenied:
+    "Your browser cannot access Geolocation or permission was denied.",
+  enterManually: "You can enter coordinates manually to open the map.",
+  openMap: "Open Map",
+  tryAgain: "Try Again",
+  permissionNeededLocation:
+    "This device may require permission to access location.",
+  getLocation: "Get Location",
+  manualCoordsLabel: "Manual coordinates (lat, lon)",
+  paste: "Paste",
+  pasteTitle: "Paste coordinates from clipboard",
+  pastePrompt: "Paste coordinates here:",
+  noClipboard: "No clipboard text available.",
+  parseError: "Could not parse coordinates from clipboard.",
+  checkingCapabilities: "Checking your device capabilities",
+  pleaseWait: "Please wait",
+  noOrientation: "Your browser cannot access Device Orientation events.",
+  compassUnavailable: "Compass functionality will be unavailable",
+  openingMap: "Opening map...",
+  permissionNeededMotion:
+    "This device may require permission to access motion sensors for compass functionality.",
+  allowMotion: "Allow Motion Access",
+  compassIconAlt: "compass icon",
+  compassLock: "Compass Lock",
+  facingKaaba: "You are facing Kaaba",
+  notFacingKaaba: "You are not facing Kaaba",
+  pwaUpdateAvailable: "New content available, click on reload button to update",
+  reload: "Reload",
+  close: "Close",
+  installPwa: "Install PWA",
+  install: "Install",
+  cancel: "Cancel",
+};
+
+export type MessageKey = keyof typeof en;
+type Messages = Record<MessageKey, string>;
+
+const fa: Messages = {
+  locationAccessGranted: "دسترسی به موقعیت مکانی داده شد.",
+  latitude: "عرض جغرافیایی",
+  longitude: "طول جغرافیایی",
+  refresh: "به‌روزرسانی",
+  geolocationDenied:
+    "مرورگر شما به موقعیت مکانی دسترسی ندارد یا اجازه داده نشد.",
+  enterManually: "می‌توانید مختصات را به‌صورت دستی وارد کنید تا نقشه باز شود.",
+  openMap: "باز کردن نقشه",
+  tryAgain: "تلاش دوباره",
+  permissionNeededLocation:
+    "این دستگاه ممکن است برای دسترسی به موقعیت مکانی به اجازه نیاز داشته باشد.",
+  getLocation: "دریافت موقعیت",
+  manualCoordsLabel: "مختصات دستی (عرض، طول)",
+  paste: "چسباندن",
+  pasteTitle: "چسباندن مختصات از کلیپ‌بورد",
+  pastePrompt: "مختصات را اینجا بچسبانید:",
+  noClipboard: "متنی در کلیپ‌بورد موجود نیست.",
+  parseError: "مختصات از کلیپ‌بورد قابل خواندن نبود.",
+  checkingCapabilities: "در حال بررسی قابلیت‌های دستگاه شما",
+  pleaseWait: "لطفاً صبر کنید",
+  noOrientation: "مرورگر شما به رویدادهای جهت‌گیری دستگاه دسترسی ندارد.",
+  compassUnavailable: "قابلیت قطب‌نما در دسترس نخواهد بود",
+  openingMap: "در حال باز کردن نقشه...",
+  permissionNeededMotion:
+    "این دستگاه ممکن است برای دسترسی به حسگرهای حرکتی جهت قطب‌نما به اجازه نیاز داشته باشد.",
+  allowMotion: "اجازه دسترسی به حرکت",
+  compassIconAlt: "نماد قطب‌نما",
+  compassLock: "قفل قطب‌نما",
+  facingKaaba: "رو به کعبه هستید",
+  notFacingKaaba: "رو به کعبه نیستید",
+  pwaUpdateAvailable:
+    "محتوای جدید موجود است، برای به‌روزرسانی روی دکمه بارگذاری مجدد کلیک کنید",
+  reload: "بارگذاری مجدد",
+  close: "بستن",
+  installPwa: "نصب برنامه",
+  install: "نصب",
+  cancel: "لغو",
+};
+
+const ar: Messages = {
+  locationAccessGranted: "تم منح إذن الوصول إلى الموقع.",
+  latitude: "خط العرض",
+  longitude: "خط الطول",
+  refresh: "تحديث",
+  geolocationDenied: "لا يمكن لمتصفحك الوصول إلى تحديد الموقع أو تم رفض الإذن.",
+  enterManually: "يمكنك إدخال الإحداثيات يدويًا لفتح الخريطة.",
+  openMap: "فتح الخريطة",
+  tryAgain: "حاول مرة أخرى",
+  permissionNeededLocation: "قد يتطلب هذا الجهاز إذنًا للوصول إلى الموقع.",
+  getLocation: "الحصول على الموقع",
+  manualCoordsLabel: "إحداثيات يدوية (خط العرض، خط الطول)",
+  paste: "لصق",
+  pasteTitle: "لصق الإحداثيات من الحافظة",
+  pastePrompt: "الصق الإحداثيات هنا:",
+  noClipboard: "لا يوجد نص في الحافظة.",
+  parseError: "تعذر قراءة الإحداثيات من الحافظة.",
+  checkingCapabilities: "جارٍ التحقق من قدرات جهازك",
+  pleaseWait: "يرجى الانتظار",
+  noOrientation: "لا يمكن لمتصفحك الوصول إلى أحداث اتجاه الجهاز.",
+  compassUnavailable: "ميزة البوصلة غير متاحة",
+  openingMap: "جارٍ فتح الخريطة...",
+  permissionNeededMotion:
+    "قد يتطلب هذا الجهاز إذنًا للوصول إلى مستشعرات الحركة لتشغيل البوصلة.",
+  allowMotion: "السماح بالوصول إلى الحركة",
+  compassIconAlt: "أيقونة البوصلة",
+  compassLock: "قفل البوصلة",
+  facingKaaba: "أنت تواجه الكعبة",
+  notFacingKaaba: "أنت لا تواجه الكعبة",
+  pwaUpdateAvailable: "يتوفر محتوى جديد، انقر على زر إعادة التحميل للتحديث",
+  reload: "إعادة التحميل",
+  close: "إغلاق",
+  installPwa: "تثبيت التطبيق",
+  install: "تثبيت",
+  cancel: "إلغاء",
+};
+
+const tr: Messages = {
+  locationAccessGranted: "Konum erişimi verildi.",
+  latitude: "Enlem",
+  longitude: "Boylam",
+  refresh: "Yenile",
+  geolocationDenied: "Tarayıcınız konuma erişemiyor veya izin reddedildi.",
+  enterManually: "Haritayı açmak için koordinatları elle girebilirsiniz.",
+  openMap: "Haritayı Aç",
+  tryAgain: "Tekrar Dene",
+  permissionNeededLocation: "Bu cihaz konuma erişmek için izin gerektirebilir.",
+  getLocation: "Konumu Al",
+  manualCoordsLabel: "Elle koordinat (enlem, boylam)",
+  paste: "Yapıştır",
+  pasteTitle: "Koordinatları panodan yapıştır",
+  pastePrompt: "Koordinatları buraya yapıştırın:",
+  noClipboard: "Panoda metin yok.",
+  parseError: "Koordinatlar panodan okunamadı.",
+  checkingCapabilities: "Cihazınızın özellikleri kontrol ediliyor",
+  pleaseWait: "Lütfen bekleyin",
+  noOrientation: "Tarayıcınız cihaz yönelim olaylarına erişemiyor.",
+  compassUnavailable: "Pusula işlevi kullanılamayacak",
+  openingMap: "Harita açılıyor...",
+  permissionNeededMotion:
+    "Bu cihaz, pusula işlevi için hareket sensörlerine erişim izni gerektirebilir.",
+  allowMotion: "Harekete Erişime İzin Ver",
+  compassIconAlt: "pusula simgesi",
+  compassLock: "Pusula Kilidi",
+  facingKaaba: "Kâbe'ye dönüksünüz",
+  notFacingKaaba: "Kâbe'ye dönük değilsiniz",
+  pwaUpdateAvailable:
+    "Yeni içerik mevcut, güncellemek için yeniden yükle düğmesine tıklayın",
+  reload: "Yeniden Yükle",
+  close: "Kapat",
+  installPwa: "Uygulamayı Yükle",
+  install: "Yükle",
+  cancel: "İptal",
+};
+
+const id: Messages = {
+  locationAccessGranted: "Akses lokasi diberikan.",
+  latitude: "Lintang",
+  longitude: "Bujur",
+  refresh: "Segarkan",
+  geolocationDenied:
+    "Browser Anda tidak dapat mengakses Geolokasi atau izin ditolak.",
+  enterManually:
+    "Anda dapat memasukkan koordinat secara manual untuk membuka peta.",
+  openMap: "Buka Peta",
+  tryAgain: "Coba Lagi",
+  permissionNeededLocation:
+    "Perangkat ini mungkin memerlukan izin untuk mengakses lokasi.",
+  getLocation: "Dapatkan Lokasi",
+  manualCoordsLabel: "Koordinat manual (lintang, bujur)",
+  paste: "Tempel",
+  pasteTitle: "Tempel koordinat dari papan klip",
+  pastePrompt: "Tempel koordinat di sini:",
+  noClipboard: "Tidak ada teks di papan klip.",
+  parseError: "Tidak dapat membaca koordinat dari papan klip.",
+  checkingCapabilities: "Memeriksa kemampuan perangkat Anda",
+  pleaseWait: "Mohon tunggu",
+  noOrientation:
+    "Browser Anda tidak dapat mengakses peristiwa Orientasi Perangkat.",
+  compassUnavailable: "Fungsi kompas tidak akan tersedia",
+  openingMap: "Membuka peta...",
+  permissionNeededMotion:
+    "Perangkat ini mungkin memerlukan izin untuk mengakses sensor gerak untuk fungsi kompas.",
+  allowMotion: "Izinkan Akses Gerak",
+  compassIconAlt: "ikon kompas",
+  compassLock: "Kunci Kompas",
+  facingKaaba: "Anda menghadap Kakbah",
+  notFacingKaaba: "Anda tidak menghadap Kakbah",
+  pwaUpdateAvailable:
+    "Konten baru tersedia, klik tombol muat ulang untuk memperbarui",
+  reload: "Muat Ulang",
+  close: "Tutup",
+  installPwa: "Pasang Aplikasi",
+  install: "Pasang",
+  cancel: "Batal",
+};
+
+const fr: Messages = {
+  locationAccessGranted: "Accès à la localisation accordé.",
+  latitude: "Latitude",
+  longitude: "Longitude",
+  refresh: "Actualiser",
+  geolocationDenied:
+    "Votre navigateur ne peut pas accéder à la géolocalisation ou l'autorisation a été refusée.",
+  enterManually:
+    "Vous pouvez saisir les coordonnées manuellement pour ouvrir la carte.",
+  openMap: "Ouvrir la carte",
+  tryAgain: "Réessayer",
+  permissionNeededLocation:
+    "Cet appareil peut nécessiter une autorisation pour accéder à la localisation.",
+  getLocation: "Obtenir la position",
+  manualCoordsLabel: "Coordonnées manuelles (lat, lon)",
+  paste: "Coller",
+  pasteTitle: "Coller les coordonnées depuis le presse-papiers",
+  pastePrompt: "Collez les coordonnées ici :",
+  noClipboard: "Aucun texte dans le presse-papiers.",
+  parseError: "Impossible de lire les coordonnées du presse-papiers.",
+  checkingCapabilities: "Vérification des capacités de votre appareil",
+  pleaseWait: "Veuillez patienter",
+  noOrientation:
+    "Votre navigateur ne peut pas accéder aux événements d'orientation de l'appareil.",
+  compassUnavailable: "La fonction boussole ne sera pas disponible",
+  openingMap: "Ouverture de la carte...",
+  permissionNeededMotion:
+    "Cet appareil peut nécessiter une autorisation pour accéder aux capteurs de mouvement pour la boussole.",
+  allowMotion: "Autoriser l'accès au mouvement",
+  compassIconAlt: "icône de boussole",
+  compassLock: "Verrou de boussole",
+  facingKaaba: "Vous faites face à la Kaaba",
+  notFacingKaaba: "Vous ne faites pas face à la Kaaba",
+  pwaUpdateAvailable:
+    "Nouveau contenu disponible, cliquez sur le bouton recharger pour mettre à jour",
+  reload: "Recharger",
+  close: "Fermer",
+  installPwa: "Installer l'application",
+  install: "Installer",
+  cancel: "Annuler",
+};
+
+const ur: Messages = {
+  locationAccessGranted: "مقام تک رسائی دے دی گئی۔",
+  latitude: "عرض البلد",
+  longitude: "طول البلد",
+  refresh: "تازہ کریں",
+  geolocationDenied:
+    "آپ کا براؤزر مقام تک رسائی نہیں کر سکتا یا اجازت مسترد کر دی گئی۔",
+  enterManually: "نقشہ کھولنے کے لیے آپ نقاط دستی طور پر درج کر سکتے ہیں۔",
+  openMap: "نقشہ کھولیں",
+  tryAgain: "دوبارہ کوشش کریں",
+  permissionNeededLocation:
+    "اس آلے کو مقام تک رسائی کے لیے اجازت درکار ہو سکتی ہے۔",
+  getLocation: "مقام حاصل کریں",
+  manualCoordsLabel: "دستی نقاط (عرض، طول)",
+  paste: "چسپاں کریں",
+  pasteTitle: "کلپ بورڈ سے نقاط چسپاں کریں",
+  pastePrompt: "نقاط یہاں چسپاں کریں:",
+  noClipboard: "کلپ بورڈ میں کوئی متن موجود نہیں۔",
+  parseError: "کلپ بورڈ سے نقاط پڑھے نہیں جا سکے۔",
+  checkingCapabilities: "آپ کے آلے کی صلاحیتوں کی جانچ ہو رہی ہے",
+  pleaseWait: "براہ کرم انتظار کریں",
+  noOrientation: "آپ کا براؤزر ڈیوائس اورینٹیشن ایونٹس تک رسائی نہیں کر سکتا۔",
+  compassUnavailable: "قطب نما کی سہولت دستیاب نہیں ہوگی",
+  openingMap: "نقشہ کھل رہا ہے...",
+  permissionNeededMotion:
+    "اس آلے کو قطب نما کے لیے موشن سینسرز تک رسائی کی اجازت درکار ہو سکتی ہے۔",
+  allowMotion: "موشن تک رسائی کی اجازت دیں",
+  compassIconAlt: "قطب نما آئیکن",
+  compassLock: "قطب نما لاک",
+  facingKaaba: "آپ کعبہ کی طرف رخ کیے ہوئے ہیں",
+  notFacingKaaba: "آپ کعبہ کی طرف رخ نہیں کیے ہوئے",
+  pwaUpdateAvailable:
+    "نیا مواد دستیاب ہے، اپ ڈیٹ کے لیے ری لوڈ بٹن پر کلک کریں",
+  reload: "دوبارہ لوڈ کریں",
+  close: "بند کریں",
+  installPwa: "ایپ انسٹال کریں",
+  install: "انسٹال کریں",
+  cancel: "منسوخ کریں",
+};
+
+const hi: Messages = {
+  locationAccessGranted: "स्थान तक पहुँच प्रदान की गई।",
+  latitude: "अक्षांश",
+  longitude: "देशांतर",
+  refresh: "ताज़ा करें",
+  geolocationDenied:
+    "आपका ब्राउज़र स्थान तक नहीं पहुँच सकता या अनुमति अस्वीकृत कर दी गई।",
+  enterManually:
+    "मानचित्र खोलने के लिए आप निर्देशांक मैन्युअल रूप से दर्ज कर सकते हैं।",
+  openMap: "मानचित्र खोलें",
+  tryAgain: "पुनः प्रयास करें",
+  permissionNeededLocation:
+    "इस डिवाइस को स्थान तक पहुँचने के लिए अनुमति की आवश्यकता हो सकती है।",
+  getLocation: "स्थान प्राप्त करें",
+  manualCoordsLabel: "मैन्युअल निर्देशांक (अक्षांश, देशांतर)",
+  paste: "चिपकाएँ",
+  pasteTitle: "क्लिपबोर्ड से निर्देशांक चिपकाएँ",
+  pastePrompt: "निर्देशांक यहाँ चिपकाएँ:",
+  noClipboard: "क्लिपबोर्ड में कोई पाठ नहीं है।",
+  parseError: "क्लिपबोर्ड से निर्देशांक पढ़े नहीं जा सके।",
+  checkingCapabilities: "आपके डिवाइस की क्षमताओं की जाँच हो रही है",
+  pleaseWait: "कृपया प्रतीक्षा करें",
+  noOrientation: "आपका ब्राउज़र डिवाइस ओरिएंटेशन इवेंट्स तक नहीं पहुँच सकता।",
+  compassUnavailable: "कम्पास कार्यक्षमता उपलब्ध नहीं होगी",
+  openingMap: "मानचित्र खुल रहा है...",
+  permissionNeededMotion:
+    "इस डिवाइस को कम्पास कार्यक्षमता के लिए मोशन सेंसर तक पहुँचने की अनुमति की आवश्यकता हो सकती है।",
+  allowMotion: "मोशन एक्सेस की अनुमति दें",
+  compassIconAlt: "कम्पास आइकन",
+  compassLock: "कम्पास लॉक",
+  facingKaaba: "आप काबा की ओर मुख किए हुए हैं",
+  notFacingKaaba: "आप काबा की ओर मुख नहीं किए हुए हैं",
+  pwaUpdateAvailable:
+    "नई सामग्री उपलब्ध है, अपडेट करने के लिए रीलोड बटन पर क्लिक करें",
+  reload: "पुनः लोड करें",
+  close: "बंद करें",
+  installPwa: "ऐप इंस्टॉल करें",
+  install: "इंस्टॉल करें",
+  cancel: "रद्द करें",
+};
+
+const de: Messages = {
+  locationAccessGranted: "Standortzugriff gewährt.",
+  latitude: "Breitengrad",
+  longitude: "Längengrad",
+  refresh: "Aktualisieren",
+  geolocationDenied:
+    "Ihr Browser kann nicht auf die Standortbestimmung zugreifen oder die Berechtigung wurde verweigert.",
+  enterManually:
+    "Sie können die Koordinaten manuell eingeben, um die Karte zu öffnen.",
+  openMap: "Karte öffnen",
+  tryAgain: "Erneut versuchen",
+  permissionNeededLocation:
+    "Dieses Gerät benötigt möglicherweise eine Berechtigung für den Standortzugriff.",
+  getLocation: "Standort abrufen",
+  manualCoordsLabel: "Manuelle Koordinaten (Breite, Länge)",
+  paste: "Einfügen",
+  pasteTitle: "Koordinaten aus der Zwischenablage einfügen",
+  pastePrompt: "Koordinaten hier einfügen:",
+  noClipboard: "Kein Text in der Zwischenablage.",
+  parseError:
+    "Koordinaten konnten nicht aus der Zwischenablage gelesen werden.",
+  checkingCapabilities: "Gerätefunktionen werden überprüft",
+  pleaseWait: "Bitte warten",
+  noOrientation:
+    "Ihr Browser kann nicht auf Geräteausrichtungsereignisse zugreifen.",
+  compassUnavailable: "Kompassfunktion ist nicht verfügbar",
+  openingMap: "Karte wird geöffnet...",
+  permissionNeededMotion:
+    "Dieses Gerät benötigt möglicherweise eine Berechtigung für den Zugriff auf Bewegungssensoren für die Kompassfunktion.",
+  allowMotion: "Bewegungszugriff erlauben",
+  compassIconAlt: "Kompasssymbol",
+  compassLock: "Kompasssperre",
+  facingKaaba: "Sie sind zur Kaaba ausgerichtet",
+  notFacingKaaba: "Sie sind nicht zur Kaaba ausgerichtet",
+  pwaUpdateAvailable:
+    "Neuer Inhalt verfügbar, klicken Sie zum Aktualisieren auf die Schaltfläche Neu laden",
+  reload: "Neu laden",
+  close: "Schließen",
+  installPwa: "App installieren",
+  install: "Installieren",
+  cancel: "Abbrechen",
+};
+
+const bs: Messages = {
+  locationAccessGranted: "Pristup lokaciji odobren.",
+  latitude: "Geografska širina",
+  longitude: "Geografska dužina",
+  refresh: "Osvježi",
+  geolocationDenied:
+    "Vaš preglednik ne može pristupiti lokaciji ili je dozvola odbijena.",
+  enterManually: "Možete ručno unijeti koordinate da otvorite mapu.",
+  openMap: "Otvori mapu",
+  tryAgain: "Pokušaj ponovo",
+  permissionNeededLocation:
+    "Ovaj uređaj možda zahtijeva dozvolu za pristup lokaciji.",
+  getLocation: "Dohvati lokaciju",
+  manualCoordsLabel: "Ručne koordinate (širina, dužina)",
+  paste: "Zalijepi",
+  pasteTitle: "Zalijepi koordinate iz međuspremnika",
+  pastePrompt: "Zalijepite koordinate ovdje:",
+  noClipboard: "Nema teksta u međuspremniku.",
+  parseError: "Nije moguće pročitati koordinate iz međuspremnika.",
+  checkingCapabilities: "Provjeravanje mogućnosti vašeg uređaja",
+  pleaseWait: "Molimo pričekajte",
+  noOrientation:
+    "Vaš preglednik ne može pristupiti događajima orijentacije uređaja.",
+  compassUnavailable: "Funkcija kompasa neće biti dostupna",
+  openingMap: "Otvaranje mape...",
+  permissionNeededMotion:
+    "Ovaj uređaj možda zahtijeva dozvolu za pristup senzorima pokreta za funkciju kompasa.",
+  allowMotion: "Dozvoli pristup pokretu",
+  compassIconAlt: "ikona kompasa",
+  compassLock: "Zaključavanje kompasa",
+  facingKaaba: "Okrenuti ste prema Kabi",
+  notFacingKaaba: "Niste okrenuti prema Kabi",
+  pwaUpdateAvailable:
+    "Novi sadržaj je dostupan, kliknite na dugme za ponovno učitavanje da ažurirate",
+  reload: "Ponovo učitaj",
+  close: "Zatvori",
+  installPwa: "Instaliraj aplikaciju",
+  install: "Instaliraj",
+  cancel: "Otkaži",
+};
+
+const vi: Messages = {
+  locationAccessGranted: "Đã cấp quyền truy cập vị trí.",
+  latitude: "Vĩ độ",
+  longitude: "Kinh độ",
+  refresh: "Làm mới",
+  geolocationDenied:
+    "Trình duyệt của bạn không thể truy cập Định vị hoặc quyền đã bị từ chối.",
+  enterManually: "Bạn có thể nhập tọa độ thủ công để mở bản đồ.",
+  openMap: "Mở bản đồ",
+  tryAgain: "Thử lại",
+  permissionNeededLocation:
+    "Thiết bị này có thể yêu cầu quyền để truy cập vị trí.",
+  getLocation: "Lấy vị trí",
+  manualCoordsLabel: "Tọa độ thủ công (vĩ độ, kinh độ)",
+  paste: "Dán",
+  pasteTitle: "Dán tọa độ từ bảng tạm",
+  pastePrompt: "Dán tọa độ vào đây:",
+  noClipboard: "Không có văn bản trong bảng tạm.",
+  parseError: "Không thể đọc tọa độ từ bảng tạm.",
+  checkingCapabilities: "Đang kiểm tra khả năng của thiết bị",
+  pleaseWait: "Vui lòng đợi",
+  noOrientation:
+    "Trình duyệt của bạn không thể truy cập các sự kiện Định hướng thiết bị.",
+  compassUnavailable: "Chức năng la bàn sẽ không khả dụng",
+  openingMap: "Đang mở bản đồ...",
+  permissionNeededMotion:
+    "Thiết bị này có thể yêu cầu quyền truy cập cảm biến chuyển động cho chức năng la bàn.",
+  allowMotion: "Cho phép truy cập chuyển động",
+  compassIconAlt: "biểu tượng la bàn",
+  compassLock: "Khóa la bàn",
+  facingKaaba: "Bạn đang hướng về Kaaba",
+  notFacingKaaba: "Bạn không hướng về Kaaba",
+  pwaUpdateAvailable: "Đã có nội dung mới, nhấp vào nút tải lại để cập nhật",
+  reload: "Tải lại",
+  close: "Đóng",
+  installPwa: "Cài đặt ứng dụng",
+  install: "Cài đặt",
+  cancel: "Hủy",
+};
+
+const bn: Messages = {
+  locationAccessGranted: "অবস্থানে প্রবেশাধিকার দেওয়া হয়েছে।",
+  latitude: "অক্ষাংশ",
+  longitude: "দ্রাঘিমাংশ",
+  refresh: "রিফ্রেশ",
+  geolocationDenied:
+    "আপনার ব্রাউজার অবস্থান অ্যাক্সেস করতে পারছে না বা অনুমতি প্রত্যাখ্যান করা হয়েছে।",
+  enterManually: "মানচিত্র খুলতে আপনি স্বহস্তে স্থানাঙ্ক প্রবেশ করাতে পারেন।",
+  openMap: "মানচিত্র খুলুন",
+  tryAgain: "আবার চেষ্টা করুন",
+  permissionNeededLocation:
+    "এই ডিভাইসটির অবস্থান অ্যাক্সেস করতে অনুমতির প্রয়োজন হতে পারে।",
+  getLocation: "অবস্থান নিন",
+  manualCoordsLabel: "স্বহস্ত স্থানাঙ্ক (অক্ষাংশ, দ্রাঘিমাংশ)",
+  paste: "পেস্ট করুন",
+  pasteTitle: "ক্লিপবোর্ড থেকে স্থানাঙ্ক পেস্ট করুন",
+  pastePrompt: "এখানে স্থানাঙ্ক পেস্ট করুন:",
+  noClipboard: "ক্লিপবোর্ডে কোনো লেখা নেই।",
+  parseError: "ক্লিপবোর্ড থেকে স্থানাঙ্ক পড়া যায়নি।",
+  checkingCapabilities: "আপনার ডিভাইসের সক্ষমতা যাচাই করা হচ্ছে",
+  pleaseWait: "অনুগ্রহ করে অপেক্ষা করুন",
+  noOrientation:
+    "আপনার ব্রাউজার ডিভাইস ওরিয়েন্টেশন ইভেন্ট অ্যাক্সেস করতে পারছে না।",
+  compassUnavailable: "কম্পাস সুবিধা উপলব্ধ থাকবে না",
+  openingMap: "মানচিত্র খোলা হচ্ছে...",
+  permissionNeededMotion:
+    "এই ডিভাইসটির কম্পাসের জন্য মোশন সেন্সর অ্যাক্সেস করতে অনুমতির প্রয়োজন হতে পারে।",
+  allowMotion: "মোশন অ্যাক্সেসের অনুমতি দিন",
+  compassIconAlt: "কম্পাস আইকন",
+  compassLock: "কম্পাস লক",
+  facingKaaba: "আপনি কাবার দিকে মুখ করে আছেন",
+  notFacingKaaba: "আপনি কাবার দিকে মুখ করে নেই",
+  pwaUpdateAvailable:
+    "নতুন কন্টেন্ট উপলব্ধ, আপডেট করতে রিলোড বোতামে ক্লিক করুন",
+  reload: "রিলোড",
+  close: "বন্ধ করুন",
+  installPwa: "অ্যাপ ইনস্টল করুন",
+  install: "ইনস্টল করুন",
+  cancel: "বাতিল",
+};
+
+const sw: Messages = {
+  locationAccessGranted: "Ufikiaji wa eneo umeruhusiwa.",
+  latitude: "Latitudo",
+  longitude: "Longitudo",
+  refresh: "Onyesha upya",
+  geolocationDenied:
+    "Kivinjari chako hakiwezi kufikia eneo au ruhusa ilikataliwa.",
+  enterManually: "Unaweza kuingiza viwianishi kwa mkono ili kufungua ramani.",
+  openMap: "Fungua Ramani",
+  tryAgain: "Jaribu Tena",
+  permissionNeededLocation:
+    "Kifaa hiki kinaweza kuhitaji ruhusa ya kufikia eneo.",
+  getLocation: "Pata Eneo",
+  manualCoordsLabel: "Viwianishi vya mkono (latitudo, longitudo)",
+  paste: "Bandika",
+  pasteTitle: "Bandika viwianishi kutoka kwa ubao wa kunakili",
+  pastePrompt: "Bandika viwianishi hapa:",
+  noClipboard: "Hakuna maandishi kwenye ubao wa kunakili.",
+  parseError: "Imeshindwa kusoma viwianishi kutoka kwa ubao wa kunakili.",
+  checkingCapabilities: "Inakagua uwezo wa kifaa chako",
+  pleaseWait: "Tafadhali subiri",
+  noOrientation:
+    "Kivinjari chako hakiwezi kufikia matukio ya Mwelekeo wa Kifaa.",
+  compassUnavailable: "Kipengele cha dira hakitapatikana",
+  openingMap: "Inafungua ramani...",
+  permissionNeededMotion:
+    "Kifaa hiki kinaweza kuhitaji ruhusa ya kufikia vitambuzi vya mwendo kwa kipengele cha dira.",
+  allowMotion: "Ruhusu Ufikiaji wa Mwendo",
+  compassIconAlt: "ikoni ya dira",
+  compassLock: "Kufuli ya Dira",
+  facingKaaba: "Unaelekea Kaaba",
+  notFacingKaaba: "Huelekei Kaaba",
+  pwaUpdateAvailable:
+    "Maudhui mapya yanapatikana, bofya kitufe cha kupakia upya ili kusasisha",
+  reload: "Pakia upya",
+  close: "Funga",
+  installPwa: "Sakinisha Programu",
+  install: "Sakinisha",
+  cancel: "Ghairi",
+};
+
+export const messages: Record<Locale, Messages> = {
+  en,
+  fa,
+  ar,
+  tr,
+  id,
+  fr,
+  ur,
+  hi,
+  de,
+  bs,
+  vi,
+  bn,
+  sw,
+};
