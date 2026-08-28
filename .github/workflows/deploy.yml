@@ -18,8 +18,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      # A release ships to users, so it does not get to skip the checks.
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
 
       - run: NUXT_APP_BASE_URL="/qibla-map/" pnpm build --preset github_pages
 

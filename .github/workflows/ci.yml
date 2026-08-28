@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      # Fails if a dependency has grown a build script that is not reviewed in
+      # package.json > pnpm.allowBuilds.
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
