@@ -68,6 +68,9 @@ const en = {
     "Searching for a GPS signal. Outdoors this can take up to a minute.",
   invalidCoords:
     "Latitude must be between -90 and 90, longitude between -180 and 180.",
+  continueWithoutCompass: "Continue without compass",
+  compassBlockedHint:
+    "Some browsers block motion sensors by default. Check your browser's site settings and give the browser the sensors permission on your phone.",
   pwaUpdateAvailable: "New content available, click on reload button to update",
   reload: "Reload",
   close: "Close",
@@ -121,6 +124,9 @@ const fa: Messages = {
     "در حال جست‌وجوی سیگنال GPS. در فضای باز ممکن است تا یک دقیقه طول بکشد.",
   invalidCoords:
     "عرض جغرافیایی باید بین ۹۰- و ۹۰ و طول جغرافیایی بین ۱۸۰- و ۱۸۰ باشد.",
+  continueWithoutCompass: "ادامه بدون قطب‌نما",
+  compassBlockedHint:
+    "برخی مرورگرها به‌صورت پیش‌فرض حسگرهای حرکتی را مسدود می‌کنند. تنظیمات سایت در مرورگر را بررسی کنید و اجازه دسترسی به حسگرها را به مرورگر بدهید.",
   pwaUpdateAvailable:
     "محتوای جدید موجود است، برای به‌روزرسانی روی دکمه بارگذاری مجدد کلیک کنید",
   reload: "بارگذاری مجدد",
@@ -168,6 +174,9 @@ const ar: Messages = {
   locationInsecure: "يتطلب الوصول إلى الموقع اتصالًا آمنًا (https).",
   searchingGps: "جارٍ البحث عن إشارة GPS. قد يستغرق ذلك دقيقة في الهواء الطلق.",
   invalidCoords: "يجب أن يكون خط العرض بين -90 و90، وخط الطول بين -180 و180.",
+  continueWithoutCompass: "المتابعة بدون بوصلة",
+  compassBlockedHint:
+    "تحجب بعض المتصفحات مستشعرات الحركة افتراضيًا. راجع إعدادات الموقع في متصفحك وامنح المتصفح إذن الوصول إلى المستشعرات على هاتفك.",
   pwaUpdateAvailable: "يتوفر محتوى جديد، انقر على زر إعادة التحميل للتحديث",
   reload: "إعادة التحميل",
   close: "إغلاق",
@@ -215,6 +224,9 @@ const tr: Messages = {
   searchingGps:
     "GPS sinyali aranıyor. Açık alanda bu bir dakikaya kadar sürebilir.",
   invalidCoords: "Enlem -90 ile 90, boylam -180 ile 180 arasında olmalıdır.",
+  continueWithoutCompass: "Pusulasız devam et",
+  compassBlockedHint:
+    "Bazı tarayıcılar hareket sensörlerini varsayılan olarak engeller. Tarayıcınızın site ayarlarını kontrol edin ve telefonunuzda tarayıcıya sensör izni verin.",
   pwaUpdateAvailable:
     "Yeni içerik mevcut, güncellemek için yeniden yükle düğmesine tıklayın",
   reload: "Yeniden Yükle",
@@ -267,6 +279,9 @@ const id: Messages = {
   searchingGps:
     "Mencari sinyal GPS. Di luar ruangan ini bisa memakan waktu hingga satu menit.",
   invalidCoords: "Lintang harus antara -90 dan 90, bujur antara -180 dan 180.",
+  continueWithoutCompass: "Lanjutkan tanpa kompas",
+  compassBlockedHint:
+    "Beberapa peramban memblokir sensor gerak secara bawaan. Periksa pengaturan situs peramban Anda dan berikan izin sensor kepada peramban di ponsel Anda.",
   pwaUpdateAvailable:
     "Konten baru tersedia, klik tombol muat ulang untuk memperbarui",
   reload: "Muat Ulang",
@@ -321,6 +336,9 @@ const fr: Messages = {
     "Recherche d'un signal GPS. En extérieur, cela peut prendre jusqu'à une minute.",
   invalidCoords:
     "La latitude doit être comprise entre -90 et 90, la longitude entre -180 et 180.",
+  continueWithoutCompass: "Continuer sans boussole",
+  compassBlockedHint:
+    "Certains navigateurs bloquent les capteurs de mouvement par défaut. Vérifiez les paramètres du site dans votre navigateur et accordez-lui l'autorisation d'accès aux capteurs sur votre téléphone.",
   pwaUpdateAvailable:
     "Nouveau contenu disponible, cliquez sur le bouton recharger pour mettre à jour",
   reload: "Recharger",
@@ -372,6 +390,9 @@ const ur: Messages = {
     "جی پی ایس سگنل تلاش کیا جا رہا ہے۔ کھلی جگہ پر اس میں ایک منٹ تک لگ سکتا ہے۔",
   invalidCoords:
     "عرض بلد 90- اور 90 کے درمیان اور طول بلد 180- اور 180 کے درمیان ہونا چاہیے۔",
+  continueWithoutCompass: "قطب نما کے بغیر جاری رکھیں",
+  compassBlockedHint:
+    "کچھ براؤزر بطور ڈیفالٹ موشن سینسرز کو بلاک کر دیتے ہیں۔ اپنے براؤزر کی سائٹ ترتیبات دیکھیں اور فون پر براؤزر کو سینسرز کی اجازت دیں۔",
   pwaUpdateAvailable:
     "نیا مواد دستیاب ہے، اپ ڈیٹ کے لیے ری لوڈ بٹن پر کلک کریں",
   reload: "دوبارہ لوڈ کریں",
@@ -424,6 +445,9 @@ const hi: Messages = {
     "GPS सिग्नल खोजा जा रहा है। खुली जगह में इसमें एक मिनट तक लग सकता है।",
   invalidCoords:
     "अक्षांश -90 और 90 के बीच तथा देशांतर -180 और 180 के बीच होना चाहिए।",
+  continueWithoutCompass: "कम्पास के बिना जारी रखें",
+  compassBlockedHint:
+    "कुछ ब्राउज़र डिफ़ॉल्ट रूप से मोशन सेंसर ब्लॉक करते हैं। अपने ब्राउज़र की साइट सेटिंग्स देखें और फ़ोन पर ब्राउज़र को सेंसर की अनुमति दें।",
   pwaUpdateAvailable:
     "नई सामग्री उपलब्ध है, अपडेट करने के लिए रीलोड बटन पर क्लिक करें",
   reload: "पुनः लोड करें",
@@ -479,6 +503,9 @@ const de: Messages = {
     "GPS-Signal wird gesucht. Im Freien kann das bis zu einer Minute dauern.",
   invalidCoords:
     "Der Breitengrad muss zwischen -90 und 90 liegen, der Längengrad zwischen -180 und 180.",
+  continueWithoutCompass: "Ohne Kompass fortfahren",
+  compassBlockedHint:
+    "Manche Browser blockieren Bewegungssensoren standardmäßig. Prüfen Sie die Seiteneinstellungen Ihres Browsers und erteilen Sie dem Browser auf dem Telefon die Sensorberechtigung.",
   pwaUpdateAvailable:
     "Neuer Inhalt verfügbar, klicken Sie zum Aktualisieren auf die Schaltfläche Neu laden",
   reload: "Neu laden",
@@ -531,6 +558,9 @@ const bs: Messages = {
     "Traženje GPS signala. Na otvorenom to može potrajati do jedne minute.",
   invalidCoords:
     "Geografska širina mora biti između -90 i 90, a dužina između -180 i 180.",
+  continueWithoutCompass: "Nastavi bez kompasa",
+  compassBlockedHint:
+    "Neki preglednici podrazumijevano blokiraju senzore pokreta. Provjerite postavke stranice u pregledniku i dajte pregledniku dozvolu za senzore na telefonu.",
   pwaUpdateAvailable:
     "Novi sadržaj je dostupan, kliknite na dugme za ponovno učitavanje da ažurirate",
   reload: "Ponovo učitaj",
@@ -583,6 +613,9 @@ const vi: Messages = {
     "Đang tìm tín hiệu GPS. Ở ngoài trời việc này có thể mất tới một phút.",
   invalidCoords:
     "Vĩ độ phải nằm trong khoảng -90 đến 90, kinh độ từ -180 đến 180.",
+  continueWithoutCompass: "Tiếp tục mà không dùng la bàn",
+  compassBlockedHint:
+    "Một số trình duyệt chặn cảm biến chuyển động theo mặc định. Hãy kiểm tra cài đặt trang trong trình duyệt và cấp quyền cảm biến cho trình duyệt trên điện thoại.",
   pwaUpdateAvailable: "Đã có nội dung mới, nhấp vào nút tải lại để cập nhật",
   reload: "Tải lại",
   close: "Đóng",
@@ -634,6 +667,9 @@ const bn: Messages = {
     "জিপিএস সংকেত খোঁজা হচ্ছে। খোলা জায়গায় এতে এক মিনিট পর্যন্ত লাগতে পারে।",
   invalidCoords:
     "অক্ষাংশ -90 থেকে 90 এবং দ্রাঘিমাংশ -180 থেকে 180 এর মধ্যে হতে হবে।",
+  continueWithoutCompass: "কম্পাস ছাড়াই চালিয়ে যান",
+  compassBlockedHint:
+    "কিছু ব্রাউজার ডিফল্টভাবে মোশন সেন্সর বন্ধ রাখে। ব্রাউজারের সাইট সেটিংস দেখুন এবং ফোনে ব্রাউজারকে সেন্সরের অনুমতি দিন।",
   pwaUpdateAvailable:
     "নতুন কন্টেন্ট উপলব্ধ, আপডেট করতে রিলোড বোতামে ক্লিক করুন",
   reload: "রিলোড",
@@ -686,6 +722,9 @@ const sw: Messages = {
     "Inatafuta ishara ya GPS. Ukiwa nje hii inaweza kuchukua hadi dakika moja.",
   invalidCoords:
     "Latitudo lazima iwe kati ya -90 na 90, longitudo kati ya -180 na 180.",
+  continueWithoutCompass: "Endelea bila dira",
+  compassBlockedHint:
+    "Baadhi ya vivinjari huzuia vitambuzi vya mwendo kwa chaguo-msingi. Angalia mipangilio ya tovuti katika kivinjari chako na kipe kivinjari ruhusa ya vitambuzi kwenye simu yako.",
   pwaUpdateAvailable:
     "Maudhui mapya yanapatikana, bofya kitufe cha kupakia upya ili kusasisha",
   reload: "Pakia upya",

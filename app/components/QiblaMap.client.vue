@@ -14,6 +14,7 @@ import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
 import type { CompassCheckResult } from "./CompassChecker.client.vue";
 import { getDeclination } from "@/utils/geomag";
+import { angleBetween, readMagneticHeading } from "@/utils/orientation";
 import compassIcon from "@/assets/explore.svg?url";
 
 const { t } = useI18n();
@@ -154,8 +155,14 @@ const userLine = computed<GeoJSON>(() => ({
   ],
 }));
 
+// A phone magnetometer is good to a few degrees at best, and the previous
+// straight subtraction also never matched across the 360/0 boundary.
+const FACING_TOLERANCE_DEGREES = 5;
+
 const isFacingKaaba = computed(
-  () => Math.abs(compassDegrees.value - qiblaDegrees.value) < 1,
+  () =>
+    angleBetween(compassDegrees.value, qiblaDegrees.value) <=
+    FACING_TOLERANCE_DEGREES,
 );
 
 const compassLockEnabled = ref(false);
@@ -171,61 +178,52 @@ function onMapMove() {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function onOrientationChanged(e: any) {
-  // webkitCompassHeading (iOS) can legitimately be 0 (due north), so coalesce
-  // on null/undefined rather than falsy. Both it and `alpha` are magnetic.
-  magneticHeading.value = e.webkitCompassHeading ?? Math.abs(e.alpha - 360);
+function onOrientationChanged(event: Event) {
+  const heading = readMagneticHeading(event);
+  // A reading we cannot trust (sensor still settling, or a relative heading)
+  // would point the user somewhere arbitrary, so keep the last good one.
+  if (heading === null) return;
+  magneticHeading.value = heading;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const evtOptions = { passive: true } as any;
+const evtOptions: AddEventListenerOptions = { passive: true };
 
-function stopListentingToOrientation() {
+function stopListeningToOrientation() {
   const evt = props.compassCheckResult?.eventlistener;
-  if (typeof evt === "string") {
-    window.removeEventListener(evt, onOrientationChanged, evtOptions);
-    listeningToOrientation.value = false;
-  }
+  if (!evt) return;
+  window.removeEventListener(evt, onOrientationChanged, evtOptions);
+  listeningToOrientation.value = false;
 }
 
 function startListeningToOrientation() {
   const evt = props.compassCheckResult?.eventlistener;
-  if (typeof evt === "string") {
-    window.addEventListener(evt, onOrientationChanged, evtOptions);
-    listeningToOrientation.value = true;
-  }
+  if (!evt) return;
+  window.addEventListener(evt, onOrientationChanged, evtOptions);
+  listeningToOrientation.value = true;
 }
-
-watch(
-  () => props.compassCheckResult,
-  () => {
-    if (listeningToOrientation.value) {
-      if (props.compassCheckResult?.available === false) {
-        stopListentingToOrientation();
-      }
-      return;
-    } else if (props.compassCheckResult?.available === true) {
-      startListeningToOrientation();
-    }
-  },
-);
 
 function toggleCompassLock() {
   if (props.compassCheckResult?.available !== true) return;
   compassLockEnabled.value = !compassLockEnabled.value;
-  if (compassLockEnabled.value) {
-    if (!listeningToOrientation.value) {
-      startListeningToOrientation();
-    }
-    // immediately align map bearing with the current compass heading
-    try {
-      map.map?.rotateTo(compassDegrees.value, { duration: 0 });
-    } catch {
-      // ignore if map isn't ready yet
-    }
+
+  if (!compassLockEnabled.value) {
+    // Nothing reads the heading while unlocked, so stop draining the sensor.
+    stopListeningToOrientation();
+    return;
+  }
+
+  if (!listeningToOrientation.value) {
+    startListeningToOrientation();
+  }
+  // immediately align map bearing with the current compass heading
+  try {
+    map.map?.rotateTo(compassDegrees.value, { duration: 0 });
+  } catch {
+    // ignore if map isn't ready yet
   }
 }
+
+onBeforeUnmount(stopListeningToOrientation);
 
 watch(
   () => compassDegrees.value,
