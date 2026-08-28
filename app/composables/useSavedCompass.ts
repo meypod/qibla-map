@@ -37,6 +37,11 @@ function isValidSavedCompass(value: unknown): value is SavedCompass {
 export function useSavedCompass() {
   const stored = useLocalStorage<SavedCompass | null>(STORAGE_KEY, null, {
     serializer: jsonSerializer<SavedCompass>(),
+    // Written synchronously. These values are recorded at the moment the
+    // component hands its result upward, which unmounts it on the same tick;
+    // a deferred write would be discarded with the component's effect scope
+    // and the value would silently never reach storage.
+    flush: "sync",
   });
 
   const lastKnown = computed(() =>

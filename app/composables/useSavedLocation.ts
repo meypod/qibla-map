@@ -22,6 +22,11 @@ export type SavedLocation = {
 export function useSavedLocation() {
   const stored = useLocalStorage<SavedLocation | null>(STORAGE_KEY, null, {
     serializer: jsonSerializer<SavedLocation>(),
+    // Written synchronously. These values are recorded at the moment the
+    // component hands its result upward, which unmounts it on the same tick;
+    // a deferred write would be discarded with the component's effect scope
+    // and the value would silently never reach storage.
+    flush: "sync",
   });
 
   // Anything on disk is user-editable and may predate a change to this shape,

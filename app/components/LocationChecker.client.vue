@@ -95,7 +95,7 @@
           </button>
         </div>
         <p v-if="parseError" class="text-red-600 mt-2 text-sm">
-          {{ parseError }}
+          {{ t(parseError) }}
         </p>
         <p v-else-if="manualCoordsInvalid" class="text-red-600 mt-2 text-sm">
           {{ t("invalidCoords") }}
@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import type { MessageKey } from "~/i18n/messages";
-import { parseCoordinates } from "@/utils/coordinates";
+import { isValidCoordinates, parseCoordinates } from "@/utils/coordinates";
 import {
   checkGeolocationUsable,
   describeGeolocationError,
@@ -135,7 +135,7 @@ const savedCoords = useLocalStorage<{
   lat: null | number;
   long: null | number;
 }>("saved_coords", { lat: null, long: null });
-const parseError = ref<string | null>(null);
+const parseError = ref<MessageKey | null>(null);
 const gettingLocation = ref(false);
 const waitingForGps = ref(false);
 const locationError = ref<MessageKey | null>(null);
@@ -169,15 +169,19 @@ function syncManualCoords() {
     return;
   }
 
-  const coordinates: [number, number] = [long as number, lat as number];
-  result.value = { available: false, coordinates };
-  remember(coordinates);
+  result.value = {
+    available: false,
+    coordinates: [long as number, lat as number],
+  };
 }
 
 watch(savedCoords, syncManualCoords, { deep: true, immediate: true });
 
 function emitResult() {
   if (!result.value) return;
+  // Persist on commit, not on every keystroke: a deep watch on the inputs
+  // would otherwise remember half-typed numbers as the start-up position.
+  remember(result.value.coordinates);
   emit("result", result.value);
 }
 async function pasteCoordinates() {
@@ -196,13 +200,13 @@ async function pasteCoordinates() {
   }
 
   if (!text) {
-    parseError.value = t("noClipboard");
+    parseError.value = "noClipboard";
     return;
   }
 
   const parsed = parseCoordinates(text);
   if (!parsed) {
-    parseError.value = t("parseError");
+    parseError.value = "parseError";
     return;
   }
 
