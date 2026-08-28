@@ -29,8 +29,11 @@ export function isValidCoordinates(value: unknown): value is [number, number] {
  */
 export function parseCoordinates(text: string): [number, number] | null {
   if (!text) return null;
-  // Replace degree symbols and commas with spaces to simplify parsing
-  const cleaned = text.replaceAll(/(and|latitude|longitude)/g, "").trim();
+  // Drop the words people paste around coordinates. Whole words only and
+  // case-insensitive, so "Latitude" goes and "Sandton" survives intact.
+  const cleaned = text
+    .replace(/\b(and|latitude|longitude|lat|lon|lng)\b/gi, "")
+    .trim();
   // Normalize common quote characters to simple ASCII variants
   const norm = cleaned
     .replace(/[‘’′]/g, "'")
@@ -39,8 +42,11 @@ export function parseCoordinates(text: string): [number, number] | null {
 
   // First: try to detect DMS (degrees° minutes' seconds") coordinate groups
   // Examples handled: "35° 41' 57.9984'' N", "51°20'15.9936" E"
+  // Each unit marker is tied to the number it belongs to. Left loose, the
+  // case-insensitive seconds marker "s" would swallow the S of a southern
+  // hemisphere letter, silently flipping "33.8688 S" to the northern one.
   const dmsRegex =
-    /([+-]?\d+(?:\.\d+)?)\s*(?:°|deg)?\s*(\d+(?:\.\d+)?)?\s*(?:'|m)?\s*(\d+(?:\.\d+)?)?\s*(?:"|s)?\s*([NSEW])?/gi;
+    /([+-]?\d+(?:\.\d+)?)\s*(?:°|deg)?\s*(?:(\d+(?:\.\d+)?)\s*(?:'|m)?\s*)?(?:(\d+(?:\.\d+)?)\s*(?:"|s)?\s*)?([NSEW])?/gi;
   const dmsParts: { num: number; dir?: string; origDeg: number }[] = [];
   let dm: RegExpExecArray | null;
   while ((dm = dmsRegex.exec(norm)) !== null) {
