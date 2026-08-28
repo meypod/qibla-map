@@ -1,20 +1,31 @@
 <template>
-  <compass-checker
-    v-if="compassCheckResult === null"
-    @result="onCompassResult"
-  />
-  <location-checker
-    v-else-if="locationCheckResult === null"
-    @result="onLocationResult"
-  />
-  <qibla-map
-    v-else
-    :user-coordinates="userCoordinates"
-    :compass-check-result="compassCheckResult"
-    :locating="locating"
-    :locate-message="locateMessage"
-    @locate="onLocate"
-  />
+  <div class="h-full">
+    <compass-checker
+      v-if="compassCheckResult === null"
+      @result="onCompassResult"
+    />
+    <location-checker
+      v-else-if="locationCheckResult === null"
+      @result="onLocationResult"
+    />
+    <qibla-map
+      v-else
+      :user-coordinates="userCoordinates"
+      :compass-check-result="compassCheckResult"
+      :locating="locating"
+      :locate-message="locateMessage"
+      @locate="onLocate"
+    />
+
+    <!-- Overlays whichever screen is up; never replaces the map. -->
+    <coordinates-dialog
+      v-if="manualEntryReason"
+      :reason="manualEntryReason"
+      :initial="userCoordinates"
+      @submit="onManualCoordinates"
+      @close="manualEntryReason = null"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -49,6 +60,9 @@ const compassCheckResult = ref<CompassCapability | null>(null);
 const locationCheckResult = ref<LocationCheckResult | null>(null);
 const userCoordinates = ref<[number, number]>([0, 0]);
 const locating = ref(false);
+// Set to the reason locating failed, which both opens the manual entry dialog
+// and is explained inside it.
+const manualEntryReason = ref<MessageKey | null>(null);
 // One status slot beside the locate button, carrying either why the lookup is
 // taking so long or why it failed.
 const locateMessage = ref<MessageKey | null>(null);
@@ -125,7 +139,7 @@ async function onLocate() {
 
   const blocked = checkGeolocationUsable();
   if (blocked) {
-    setLocateMessage(blocked, { transient: true });
+    manualEntryReason.value = blocked;
     return;
   }
 
@@ -146,10 +160,22 @@ async function onLocate() {
     }
     startLiveWatch();
   } catch (error) {
-    setLocateMessage(describeGeolocationError(error), { transient: true });
+    // Every failure message ends by suggesting manual entry, so put the fields
+    // in front of the user rather than leaving that a dead end on the map.
+    setLocateMessage(null);
+    manualEntryReason.value = describeGeolocationError(error);
   } finally {
     locating.value = false;
   }
+}
+
+function onManualCoordinates(coordinates: [number, number]) {
+  manualEntryReason.value = null;
+  userCoordinates.value = coordinates;
+  remember(coordinates);
+  // Typed coordinates are a deliberate choice; stop the live watch from
+  // overwriting them with a fix that may never have been the problem.
+  locationCheckResult.value = { available: false, coordinates };
 }
 
 watch(coords, () => {

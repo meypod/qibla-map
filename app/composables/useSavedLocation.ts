@@ -7,12 +7,10 @@
  * a fresh fix is acquired in the background.
  */
 
+import { isValidCoordinates } from "@/utils/coordinates";
 import { jsonSerializer } from "@/utils/storage";
 
 const STORAGE_KEY = "last_known_location";
-
-const MAX_LATITUDE = 90;
-const MAX_LONGITUDE = 180;
 
 export type SavedLocation = {
   /** [longitude, latitude], the order the map and the Qibla math both use */
@@ -20,19 +18,6 @@ export type SavedLocation = {
   /** epoch milliseconds */
   savedAt: number;
 };
-
-export function isValidCoordinates(value: unknown): value is [number, number] {
-  if (!Array.isArray(value) || value.length !== 2) return false;
-  const [long, lat] = value;
-  return (
-    typeof long === "number" &&
-    Number.isFinite(long) &&
-    Math.abs(long) <= MAX_LONGITUDE &&
-    typeof lat === "number" &&
-    Number.isFinite(lat) &&
-    Math.abs(lat) <= MAX_LATITUDE
-  );
-}
 
 export function useSavedLocation() {
   const stored = useLocalStorage<SavedLocation | null>(STORAGE_KEY, null, {
