@@ -76,6 +76,11 @@ const lat = ref<number | null>(props.initial?.[1] ?? null);
 const long = ref<number | null>(props.initial?.[0] ?? null);
 const error = ref<MessageKey | null>(null);
 
+// A stale complaint about the last paste should not outlive the user fixing it.
+watch([lat, long], () => {
+  error.value = null;
+});
+
 const coordinates = computed<[number, number] | null>(() => {
   const candidate = [long.value, lat.value] as [number, number];
   return isValidCoordinates(candidate) ? candidate : null;

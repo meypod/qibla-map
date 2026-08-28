@@ -56,7 +56,6 @@ const en = {
   permissionNeededMotion:
     "This device may require permission to access motion sensors for compass functionality.",
   allowMotion: "Allow Motion Access",
-  compassIconAlt: "compass icon",
   compassLock: "Compass Lock",
   facingKaaba: "You are facing Kaaba",
   notFacingKaaba: "You are not facing Kaaba",
@@ -117,7 +116,6 @@ const fa: Messages = {
   permissionNeededMotion:
     "این دستگاه ممکن است برای دسترسی به حسگرهای حرکتی جهت قطب‌نما به اجازه نیاز داشته باشد.",
   allowMotion: "اجازه دسترسی به حرکت",
-  compassIconAlt: "نماد قطب‌نما",
   compassLock: "قفل قطب‌نما",
   facingKaaba: "رو به کعبه هستید",
   notFacingKaaba: "رو به کعبه نیستید",
@@ -174,7 +172,6 @@ const ar: Messages = {
   permissionNeededMotion:
     "قد يتطلب هذا الجهاز إذنًا للوصول إلى مستشعرات الحركة لتشغيل البوصلة.",
   allowMotion: "السماح بالوصول إلى الحركة",
-  compassIconAlt: "أيقونة البوصلة",
   compassLock: "قفل البوصلة",
   facingKaaba: "أنت تواجه الكعبة",
   notFacingKaaba: "أنت لا تواجه الكعبة",
@@ -229,7 +226,6 @@ const tr: Messages = {
   permissionNeededMotion:
     "Bu cihaz, pusula işlevi için hareket sensörlerine erişim izni gerektirebilir.",
   allowMotion: "Harekete Erişime İzin Ver",
-  compassIconAlt: "pusula simgesi",
   compassLock: "Pusula Kilidi",
   facingKaaba: "Kâbe'ye dönüksünüz",
   notFacingKaaba: "Kâbe'ye dönük değilsiniz",
@@ -290,7 +286,6 @@ const id: Messages = {
   permissionNeededMotion:
     "Perangkat ini mungkin memerlukan izin untuk mengakses sensor gerak untuk fungsi kompas.",
   allowMotion: "Izinkan Akses Gerak",
-  compassIconAlt: "ikon kompas",
   compassLock: "Kunci Kompas",
   facingKaaba: "Anda menghadap Kakbah",
   notFacingKaaba: "Anda tidak menghadap Kakbah",
@@ -351,7 +346,6 @@ const fr: Messages = {
   permissionNeededMotion:
     "Cet appareil peut nécessiter une autorisation pour accéder aux capteurs de mouvement pour la boussole.",
   allowMotion: "Autoriser l'accès au mouvement",
-  compassIconAlt: "icône de boussole",
   compassLock: "Verrou de boussole",
   facingKaaba: "Vous faites face à la Kaaba",
   notFacingKaaba: "Vous ne faites pas face à la Kaaba",
@@ -411,7 +405,6 @@ const ur: Messages = {
   permissionNeededMotion:
     "اس آلے کو قطب نما کے لیے موشن سینسرز تک رسائی کی اجازت درکار ہو سکتی ہے۔",
   allowMotion: "موشن تک رسائی کی اجازت دیں",
-  compassIconAlt: "قطب نما آئیکن",
   compassLock: "قطب نما لاک",
   facingKaaba: "آپ کعبہ کی طرف رخ کیے ہوئے ہیں",
   notFacingKaaba: "آپ کعبہ کی طرف رخ نہیں کیے ہوئے",
@@ -471,7 +464,6 @@ const hi: Messages = {
   permissionNeededMotion:
     "इस डिवाइस को कम्पास कार्यक्षमता के लिए मोशन सेंसर तक पहुँचने की अनुमति की आवश्यकता हो सकती है।",
   allowMotion: "मोशन एक्सेस की अनुमति दें",
-  compassIconAlt: "कम्पास आइकन",
   compassLock: "कम्पास लॉक",
   facingKaaba: "आप काबा की ओर मुख किए हुए हैं",
   notFacingKaaba: "आप काबा की ओर मुख नहीं किए हुए हैं",
@@ -534,7 +526,6 @@ const de: Messages = {
   permissionNeededMotion:
     "Dieses Gerät benötigt möglicherweise eine Berechtigung für den Zugriff auf Bewegungssensoren für die Kompassfunktion.",
   allowMotion: "Bewegungszugriff erlauben",
-  compassIconAlt: "Kompasssymbol",
   compassLock: "Kompasssperre",
   facingKaaba: "Sie sind zur Kaaba ausgerichtet",
   notFacingKaaba: "Sie sind nicht zur Kaaba ausgerichtet",
@@ -596,7 +587,6 @@ const bs: Messages = {
   permissionNeededMotion:
     "Ovaj uređaj možda zahtijeva dozvolu za pristup senzorima pokreta za funkciju kompasa.",
   allowMotion: "Dozvoli pristup pokretu",
-  compassIconAlt: "ikona kompasa",
   compassLock: "Zaključavanje kompasa",
   facingKaaba: "Okrenuti ste prema Kabi",
   notFacingKaaba: "Niste okrenuti prema Kabi",
@@ -656,7 +646,6 @@ const vi: Messages = {
   permissionNeededMotion:
     "Thiết bị này có thể yêu cầu quyền truy cập cảm biến chuyển động cho chức năng la bàn.",
   allowMotion: "Cho phép truy cập chuyển động",
-  compassIconAlt: "biểu tượng la bàn",
   compassLock: "Khóa la bàn",
   facingKaaba: "Bạn đang hướng về Kaaba",
   notFacingKaaba: "Bạn không hướng về Kaaba",
@@ -715,7 +704,6 @@ const bn: Messages = {
   permissionNeededMotion:
     "এই ডিভাইসটির কম্পাসের জন্য মোশন সেন্সর অ্যাক্সেস করতে অনুমতির প্রয়োজন হতে পারে।",
   allowMotion: "মোশন অ্যাক্সেসের অনুমতি দিন",
-  compassIconAlt: "কম্পাস আইকন",
   compassLock: "কম্পাস লক",
   facingKaaba: "আপনি কাবার দিকে মুখ করে আছেন",
   notFacingKaaba: "আপনি কাবার দিকে মুখ করে নেই",
@@ -776,7 +764,6 @@ const sw: Messages = {
   permissionNeededMotion:
     "Kifaa hiki kinaweza kuhitaji ruhusa ya kufikia vitambuzi vya mwendo kwa kipengele cha dira.",
   allowMotion: "Ruhusu Ufikiaji wa Mwendo",
-  compassIconAlt: "ikoni ya dira",
   compassLock: "Kufuli ya Dira",
   facingKaaba: "Unaelekea Kaaba",
   notFacingKaaba: "Huelekei Kaaba",

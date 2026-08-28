@@ -273,7 +273,7 @@ watch(
   <mgl-map
     :map-style="mapStyle"
     :min-zoom="12"
-    :zoom="10"
+    :zoom="12"
     :center="userCoordinates"
     :drag-pan="false"
     :box-zoom="false"
@@ -362,9 +362,10 @@ watch(
         'bg-cyan-600 border-cyan-400': compassLockEnabled,
       }"
       dir="ltr"
+      :aria-pressed="compassLockEnabled"
       @click="toggleCompassLock"
     >
-      <img :src="compassIcon" :alt="t('compassIconAlt')" />
+      <img :src="compassIcon" alt="" />
       {{ t("compassLock") }}
     </button>
 
@@ -372,10 +373,12 @@ watch(
       v-if="compassLockEnabled"
       class="flex justify-center items-center bg-black/50 fixed top-0 left-1/2 -translate-x-1/2"
       aria-live="polite"
-      :aria-label="isFacingKaaba ? t('facingKaaba') : t('notFacingKaaba')"
     >
       <CheckIcon v-if="isFacingKaaba" class="text-[#59cf78] size-11" />
       <CrossIcon v-else class="text-red-400 size-11" />
+      <span class="sr-only">
+        {{ isFacingKaaba ? t("facingKaaba") : t("notFacingKaaba") }}
+      </span>
     </div>
   </mgl-map>
 </template>
