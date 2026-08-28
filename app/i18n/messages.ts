@@ -57,6 +57,17 @@ const en = {
   compassLock: "Compass Lock",
   facingKaaba: "You are facing Kaaba",
   notFacingKaaba: "You are not facing Kaaba",
+  locationDenied:
+    "Location permission was denied. Allow location for this site in your browser settings, or enter coordinates manually.",
+  locationUnavailable:
+    "Your device could not determine a position. Check that location is switched on and that your browser is allowed to use it.",
+  locationTimeout:
+    "Getting a GPS fix took too long. Try again outdoors, or enter coordinates manually.",
+  locationInsecure: "Location access requires a secure (https) connection.",
+  searchingGps:
+    "Searching for a GPS signal. Outdoors this can take up to a minute.",
+  invalidCoords:
+    "Latitude must be between -90 and 90, longitude between -180 and 180.",
   pwaUpdateAvailable: "New content available, click on reload button to update",
   reload: "Reload",
   close: "Close",
@@ -99,6 +110,17 @@ const fa: Messages = {
   compassLock: "قفل قطب‌نما",
   facingKaaba: "رو به کعبه هستید",
   notFacingKaaba: "رو به کعبه نیستید",
+  locationDenied:
+    "اجازه دسترسی به موقعیت مکانی داده نشد. در تنظیمات مرورگر برای این سایت اجازه دهید، یا مختصات را دستی وارد کنید.",
+  locationUnavailable:
+    "دستگاه شما نتوانست موقعیت را تعیین کند. مطمئن شوید موقعیت مکانی روشن است و مرورگر اجازه استفاده از آن را دارد.",
+  locationTimeout:
+    "دریافت موقعیت GPS بیش از حد طول کشید. در فضای باز دوباره تلاش کنید یا مختصات را دستی وارد کنید.",
+  locationInsecure: "دسترسی به موقعیت مکانی نیازمند اتصال امن (https) است.",
+  searchingGps:
+    "در حال جست‌وجوی سیگنال GPS. در فضای باز ممکن است تا یک دقیقه طول بکشد.",
+  invalidCoords:
+    "عرض جغرافیایی باید بین ۹۰- و ۹۰ و طول جغرافیایی بین ۱۸۰- و ۱۸۰ باشد.",
   pwaUpdateAvailable:
     "محتوای جدید موجود است، برای به‌روزرسانی روی دکمه بارگذاری مجدد کلیک کنید",
   reload: "بارگذاری مجدد",
@@ -137,6 +159,15 @@ const ar: Messages = {
   compassLock: "قفل البوصلة",
   facingKaaba: "أنت تواجه الكعبة",
   notFacingKaaba: "أنت لا تواجه الكعبة",
+  locationDenied:
+    "تم رفض إذن الوصول إلى الموقع. اسمح بالوصول إلى الموقع لهذا الموقع في إعدادات المتصفح، أو أدخل الإحداثيات يدويًا.",
+  locationUnavailable:
+    "تعذّر على جهازك تحديد الموقع. تأكد من تشغيل خدمة الموقع ومن السماح للمتصفح باستخدامها.",
+  locationTimeout:
+    "استغرق تحديد الموقع عبر GPS وقتًا طويلًا. حاول مرة أخرى في الخارج، أو أدخل الإحداثيات يدويًا.",
+  locationInsecure: "يتطلب الوصول إلى الموقع اتصالًا آمنًا (https).",
+  searchingGps: "جارٍ البحث عن إشارة GPS. قد يستغرق ذلك دقيقة في الهواء الطلق.",
+  invalidCoords: "يجب أن يكون خط العرض بين -90 و90، وخط الطول بين -180 و180.",
   pwaUpdateAvailable: "يتوفر محتوى جديد، انقر على زر إعادة التحميل للتحديث",
   reload: "إعادة التحميل",
   close: "إغلاق",
@@ -174,6 +205,16 @@ const tr: Messages = {
   compassLock: "Pusula Kilidi",
   facingKaaba: "Kâbe'ye dönüksünüz",
   notFacingKaaba: "Kâbe'ye dönük değilsiniz",
+  locationDenied:
+    "Konum izni reddedildi. Tarayıcı ayarlarından bu siteye konum izni verin veya koordinatları elle girin.",
+  locationUnavailable:
+    "Cihazınız konumu belirleyemedi. Konum servisinin açık olduğundan ve tarayıcının kullanmasına izin verildiğinden emin olun.",
+  locationTimeout:
+    "GPS konumu almak çok uzun sürdü. Açık alanda tekrar deneyin veya koordinatları elle girin.",
+  locationInsecure: "Konum erişimi güvenli (https) bir bağlantı gerektirir.",
+  searchingGps:
+    "GPS sinyali aranıyor. Açık alanda bu bir dakikaya kadar sürebilir.",
+  invalidCoords: "Enlem -90 ile 90, boylam -180 ile 180 arasında olmalıdır.",
   pwaUpdateAvailable:
     "Yeni içerik mevcut, güncellemek için yeniden yükle düğmesine tıklayın",
   reload: "Yeniden Yükle",
@@ -216,6 +257,16 @@ const id: Messages = {
   compassLock: "Kunci Kompas",
   facingKaaba: "Anda menghadap Kakbah",
   notFacingKaaba: "Anda tidak menghadap Kakbah",
+  locationDenied:
+    "Izin lokasi ditolak. Izinkan lokasi untuk situs ini di pengaturan peramban, atau masukkan koordinat secara manual.",
+  locationUnavailable:
+    "Perangkat Anda tidak dapat menentukan posisi. Pastikan layanan lokasi aktif dan peramban diizinkan menggunakannya.",
+  locationTimeout:
+    "Mendapatkan sinyal GPS terlalu lama. Coba lagi di luar ruangan, atau masukkan koordinat secara manual.",
+  locationInsecure: "Akses lokasi memerlukan koneksi aman (https).",
+  searchingGps:
+    "Mencari sinyal GPS. Di luar ruangan ini bisa memakan waktu hingga satu menit.",
+  invalidCoords: "Lintang harus antara -90 dan 90, bujur antara -180 dan 180.",
   pwaUpdateAvailable:
     "Konten baru tersedia, klik tombol muat ulang untuk memperbarui",
   reload: "Muat Ulang",
@@ -258,6 +309,18 @@ const fr: Messages = {
   compassLock: "Verrou de boussole",
   facingKaaba: "Vous faites face à la Kaaba",
   notFacingKaaba: "Vous ne faites pas face à la Kaaba",
+  locationDenied:
+    "L'autorisation de localisation a été refusée. Autorisez la localisation pour ce site dans les paramètres du navigateur, ou saisissez les coordonnées manuellement.",
+  locationUnavailable:
+    "Votre appareil n'a pas pu déterminer sa position. Vérifiez que la localisation est activée et que le navigateur est autorisé à l'utiliser.",
+  locationTimeout:
+    "L'obtention d'un point GPS a pris trop de temps. Réessayez en extérieur, ou saisissez les coordonnées manuellement.",
+  locationInsecure:
+    "L'accès à la localisation nécessite une connexion sécurisée (https).",
+  searchingGps:
+    "Recherche d'un signal GPS. En extérieur, cela peut prendre jusqu'à une minute.",
+  invalidCoords:
+    "La latitude doit être comprise entre -90 et 90, la longitude entre -180 et 180.",
   pwaUpdateAvailable:
     "Nouveau contenu disponible, cliquez sur le bouton recharger pour mettre à jour",
   reload: "Recharger",
@@ -298,6 +361,17 @@ const ur: Messages = {
   compassLock: "قطب نما لاک",
   facingKaaba: "آپ کعبہ کی طرف رخ کیے ہوئے ہیں",
   notFacingKaaba: "آپ کعبہ کی طرف رخ نہیں کیے ہوئے",
+  locationDenied:
+    "مقام تک رسائی کی اجازت نہیں دی گئی۔ براؤزر کی ترتیبات میں اس سائٹ کے لیے اجازت دیں، یا نقاط دستی طور پر درج کریں۔",
+  locationUnavailable:
+    "آپ کا آلہ مقام کا تعین نہیں کر سکا۔ یقینی بنائیں کہ لوکیشن آن ہے اور براؤزر کو اس کے استعمال کی اجازت ہے۔",
+  locationTimeout:
+    "جی پی ایس سے مقام حاصل کرنے میں بہت زیادہ وقت لگا۔ کھلی جگہ پر دوبارہ کوشش کریں، یا نقاط دستی طور پر درج کریں۔",
+  locationInsecure: "مقام تک رسائی کے لیے محفوظ (https) کنکشن ضروری ہے۔",
+  searchingGps:
+    "جی پی ایس سگنل تلاش کیا جا رہا ہے۔ کھلی جگہ پر اس میں ایک منٹ تک لگ سکتا ہے۔",
+  invalidCoords:
+    "عرض بلد 90- اور 90 کے درمیان اور طول بلد 180- اور 180 کے درمیان ہونا چاہیے۔",
   pwaUpdateAvailable:
     "نیا مواد دستیاب ہے، اپ ڈیٹ کے لیے ری لوڈ بٹن پر کلک کریں",
   reload: "دوبارہ لوڈ کریں",
@@ -339,6 +413,17 @@ const hi: Messages = {
   compassLock: "कम्पास लॉक",
   facingKaaba: "आप काबा की ओर मुख किए हुए हैं",
   notFacingKaaba: "आप काबा की ओर मुख नहीं किए हुए हैं",
+  locationDenied:
+    "स्थान की अनुमति अस्वीकार कर दी गई। ब्राउज़र सेटिंग्स में इस साइट के लिए स्थान की अनुमति दें, या निर्देशांक मैन्युअल रूप से दर्ज करें।",
+  locationUnavailable:
+    "आपका डिवाइस स्थान निर्धारित नहीं कर सका। जाँचें कि स्थान चालू है और ब्राउज़र को इसका उपयोग करने की अनुमति है।",
+  locationTimeout:
+    "GPS से स्थान प्राप्त करने में बहुत समय लगा। खुली जगह में फिर से प्रयास करें, या निर्देशांक मैन्युअल रूप से दर्ज करें।",
+  locationInsecure: "स्थान तक पहुँच के लिए सुरक्षित (https) कनेक्शन आवश्यक है।",
+  searchingGps:
+    "GPS सिग्नल खोजा जा रहा है। खुली जगह में इसमें एक मिनट तक लग सकता है।",
+  invalidCoords:
+    "अक्षांश -90 और 90 के बीच तथा देशांतर -180 और 180 के बीच होना चाहिए।",
   pwaUpdateAvailable:
     "नई सामग्री उपलब्ध है, अपडेट करने के लिए रीलोड बटन पर क्लिक करें",
   reload: "पुनः लोड करें",
@@ -382,6 +467,18 @@ const de: Messages = {
   compassLock: "Kompasssperre",
   facingKaaba: "Sie sind zur Kaaba ausgerichtet",
   notFacingKaaba: "Sie sind nicht zur Kaaba ausgerichtet",
+  locationDenied:
+    "Die Standortberechtigung wurde verweigert. Erlauben Sie den Standort für diese Seite in den Browsereinstellungen, oder geben Sie die Koordinaten manuell ein.",
+  locationUnavailable:
+    "Ihr Gerät konnte keine Position bestimmen. Prüfen Sie, ob die Ortung eingeschaltet ist und der Browser sie verwenden darf.",
+  locationTimeout:
+    "Die GPS-Ortung hat zu lange gedauert. Versuchen Sie es im Freien erneut, oder geben Sie die Koordinaten manuell ein.",
+  locationInsecure:
+    "Der Standortzugriff erfordert eine sichere (https) Verbindung.",
+  searchingGps:
+    "GPS-Signal wird gesucht. Im Freien kann das bis zu einer Minute dauern.",
+  invalidCoords:
+    "Der Breitengrad muss zwischen -90 und 90 liegen, der Längengrad zwischen -180 und 180.",
   pwaUpdateAvailable:
     "Neuer Inhalt verfügbar, klicken Sie zum Aktualisieren auf die Schaltfläche Neu laden",
   reload: "Neu laden",
@@ -423,6 +520,17 @@ const bs: Messages = {
   compassLock: "Zaključavanje kompasa",
   facingKaaba: "Okrenuti ste prema Kabi",
   notFacingKaaba: "Niste okrenuti prema Kabi",
+  locationDenied:
+    "Pristup lokaciji je odbijen. Dozvolite lokaciju za ovu stranicu u postavkama preglednika, ili unesite koordinate ručno.",
+  locationUnavailable:
+    "Vaš uređaj nije mogao odrediti poziciju. Provjerite je li lokacija uključena i ima li preglednik dozvolu da je koristi.",
+  locationTimeout:
+    "Dobivanje GPS pozicije trajalo je predugo. Pokušajte ponovo na otvorenom, ili unesite koordinate ručno.",
+  locationInsecure: "Pristup lokaciji zahtijeva sigurnu (https) vezu.",
+  searchingGps:
+    "Traženje GPS signala. Na otvorenom to može potrajati do jedne minute.",
+  invalidCoords:
+    "Geografska širina mora biti između -90 i 90, a dužina između -180 i 180.",
   pwaUpdateAvailable:
     "Novi sadržaj je dostupan, kliknite na dugme za ponovno učitavanje da ažurirate",
   reload: "Ponovo učitaj",
@@ -464,6 +572,17 @@ const vi: Messages = {
   compassLock: "Khóa la bàn",
   facingKaaba: "Bạn đang hướng về Kaaba",
   notFacingKaaba: "Bạn không hướng về Kaaba",
+  locationDenied:
+    "Quyền truy cập vị trí đã bị từ chối. Hãy cho phép vị trí cho trang này trong cài đặt trình duyệt, hoặc nhập tọa độ thủ công.",
+  locationUnavailable:
+    "Thiết bị của bạn không xác định được vị trí. Hãy kiểm tra dịch vụ vị trí đã bật và trình duyệt được phép sử dụng.",
+  locationTimeout:
+    "Việc lấy tín hiệu GPS mất quá nhiều thời gian. Hãy thử lại ngoài trời, hoặc nhập tọa độ thủ công.",
+  locationInsecure: "Truy cập vị trí yêu cầu kết nối an toàn (https).",
+  searchingGps:
+    "Đang tìm tín hiệu GPS. Ở ngoài trời việc này có thể mất tới một phút.",
+  invalidCoords:
+    "Vĩ độ phải nằm trong khoảng -90 đến 90, kinh độ từ -180 đến 180.",
   pwaUpdateAvailable: "Đã có nội dung mới, nhấp vào nút tải lại để cập nhật",
   reload: "Tải lại",
   close: "Đóng",
@@ -504,6 +623,17 @@ const bn: Messages = {
   compassLock: "কম্পাস লক",
   facingKaaba: "আপনি কাবার দিকে মুখ করে আছেন",
   notFacingKaaba: "আপনি কাবার দিকে মুখ করে নেই",
+  locationDenied:
+    "অবস্থানের অনুমতি প্রত্যাখ্যান করা হয়েছে। ব্রাউজার সেটিংসে এই সাইটের জন্য অবস্থানের অনুমতি দিন, অথবা স্থানাঙ্ক নিজে লিখুন।",
+  locationUnavailable:
+    "আপনার ডিভাইস অবস্থান নির্ণয় করতে পারেনি। দেখুন অবস্থান চালু আছে কি না এবং ব্রাউজারের অনুমতি আছে কি না।",
+  locationTimeout:
+    "জিপিএস থেকে অবস্থান পেতে অনেক সময় লেগেছে। খোলা জায়গায় আবার চেষ্টা করুন, অথবা স্থানাঙ্ক নিজে লিখুন।",
+  locationInsecure: "অবস্থান ব্যবহারের জন্য নিরাপদ (https) সংযোগ প্রয়োজন।",
+  searchingGps:
+    "জিপিএস সংকেত খোঁজা হচ্ছে। খোলা জায়গায় এতে এক মিনিট পর্যন্ত লাগতে পারে।",
+  invalidCoords:
+    "অক্ষাংশ -90 থেকে 90 এবং দ্রাঘিমাংশ -180 থেকে 180 এর মধ্যে হতে হবে।",
   pwaUpdateAvailable:
     "নতুন কন্টেন্ট উপলব্ধ, আপডেট করতে রিলোড বোতামে ক্লিক করুন",
   reload: "রিলোড",
@@ -545,6 +675,17 @@ const sw: Messages = {
   compassLock: "Kufuli ya Dira",
   facingKaaba: "Unaelekea Kaaba",
   notFacingKaaba: "Huelekei Kaaba",
+  locationDenied:
+    "Ruhusa ya mahali imekataliwa. Ruhusu mahali kwa tovuti hii katika mipangilio ya kivinjari, au weka viwianishi mwenyewe.",
+  locationUnavailable:
+    "Kifaa chako hakikuweza kubaini mahali. Hakikisha huduma ya mahali imewashwa na kivinjari kimeruhusiwa kuitumia.",
+  locationTimeout:
+    "Kupata mahali kwa GPS kumechukua muda mrefu mno. Jaribu tena ukiwa nje, au weka viwianishi mwenyewe.",
+  locationInsecure: "Kufikia mahali kunahitaji muunganisho salama (https).",
+  searchingGps:
+    "Inatafuta ishara ya GPS. Ukiwa nje hii inaweza kuchukua hadi dakika moja.",
+  invalidCoords:
+    "Latitudo lazima iwe kati ya -90 na 90, longitudo kati ya -180 na 180.",
   pwaUpdateAvailable:
     "Maudhui mapya yanapatikana, bofya kitufe cha kupakia upya ili kusasisha",
   reload: "Pakia upya",
