@@ -43,7 +43,7 @@
               @click="tryRequestPermission"
             >
               {{ t("tryAgain") }}
-              <spinner v-if="gettingLocation" />
+              <loading-spinner v-if="gettingLocation" />
             </button>
           </div>
         </div>
@@ -67,7 +67,7 @@
             @click="tryRequestPermission"
           >
             {{ t("getLocation") }}
-            <spinner v-if="gettingLocation" />
+            <loading-spinner v-if="gettingLocation" />
           </button>
         </div>
       </div>
