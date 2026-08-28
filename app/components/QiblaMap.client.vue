@@ -155,13 +155,13 @@ const userLine = computed<GeoJSON>(() => ({
   ],
 }));
 
-// A phone magnetometer is good to a few degrees at best, and the previous
-// straight subtraction also never matched across the 360/0 boundary.
-const FACING_TOLERANCE_DEGREES = 5;
+// Straight subtraction never matched across the 360/0 boundary, where a
+// heading of 0.5 and a Qibla of 359.5 read as 359 degrees apart.
+const FACING_TOLERANCE_DEGREES = 1;
 
 const isFacingKaaba = computed(
   () =>
-    angleBetween(compassDegrees.value, qiblaDegrees.value) <=
+    angleBetween(compassDegrees.value, qiblaDegrees.value) <
     FACING_TOLERANCE_DEGREES,
 );
 
