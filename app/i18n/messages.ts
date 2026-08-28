@@ -27,6 +27,9 @@ export const RTL_LOCALES: ReadonlySet<Locale> = new Set<Locale>([
 ]);
 
 const en = {
+  appName: "Qibla Map",
+  appDescription:
+    "A simple Qibla finder that shows the Qibla direction on a map.",
   locationAccessGranted: "Location access granted.",
   latitude: "Latitude",
   longitude: "Longitude",
@@ -86,6 +89,8 @@ export type MessageKey = keyof typeof en;
 type Messages = Record<MessageKey, string>;
 
 const fa: Messages = {
+  appName: "نقشه قبله",
+  appDescription: "قبله‌یاب ساده که جهت قبله را روی نقشه نشان می‌دهد.",
   locationAccessGranted: "دسترسی به موقعیت مکانی داده شد.",
   latitude: "عرض جغرافیایی",
   longitude: "طول جغرافیایی",
@@ -143,6 +148,8 @@ const fa: Messages = {
 };
 
 const ar: Messages = {
+  appName: "خريطة القبلة",
+  appDescription: "أداة بسيطة لتحديد القبلة تعرض اتجاه القبلة على الخريطة.",
   locationAccessGranted: "تم منح إذن الوصول إلى الموقع.",
   latitude: "خط العرض",
   longitude: "خط الطول",
@@ -195,6 +202,9 @@ const ar: Messages = {
 };
 
 const tr: Messages = {
+  appName: "Kıble Haritası",
+  appDescription:
+    "Kıble yönünü harita üzerinde gösteren basit bir kıble bulucu.",
   locationAccessGranted: "Konum erişimi verildi.",
   latitude: "Enlem",
   longitude: "Boylam",
@@ -249,6 +259,9 @@ const tr: Messages = {
 };
 
 const id: Messages = {
+  appName: "Peta Kiblat",
+  appDescription:
+    "Pencari kiblat sederhana yang menunjukkan arah kiblat di peta.",
   locationAccessGranted: "Akses lokasi diberikan.",
   latitude: "Lintang",
   longitude: "Bujur",
@@ -307,6 +320,9 @@ const id: Messages = {
 };
 
 const fr: Messages = {
+  appName: "Carte de la Qibla",
+  appDescription:
+    "Un outil simple qui indique la direction de la Qibla sur une carte.",
   locationAccessGranted: "Accès à la localisation accordé.",
   latitude: "Latitude",
   longitude: "Longitude",
@@ -367,6 +383,8 @@ const fr: Messages = {
 };
 
 const ur: Messages = {
+  appName: "قبلہ نقشہ",
+  appDescription: "ایک سادہ قبلہ نما جو نقشے پر قبلہ کی سمت دکھاتا ہے۔",
   locationAccessGranted: "مقام تک رسائی دے دی گئی۔",
   latitude: "عرض البلد",
   longitude: "طول البلد",
@@ -424,6 +442,8 @@ const ur: Messages = {
 };
 
 const hi: Messages = {
+  appName: "क़िबला मानचित्र",
+  appDescription: "एक सरल क़िबला खोजक जो मानचित्र पर क़िबला की दिशा दिखाता है।",
   locationAccessGranted: "स्थान तक पहुँच प्रदान की गई।",
   latitude: "अक्षांश",
   longitude: "देशांतर",
@@ -482,6 +502,9 @@ const hi: Messages = {
 };
 
 const de: Messages = {
+  appName: "Qibla-Karte",
+  appDescription:
+    "Ein einfacher Qibla-Finder, der die Gebetsrichtung auf einer Karte zeigt.",
   locationAccessGranted: "Standortzugriff gewährt.",
   latitude: "Breitengrad",
   longitude: "Längengrad",
@@ -543,6 +566,9 @@ const de: Messages = {
 };
 
 const bs: Messages = {
+  appName: "Karta kible",
+  appDescription:
+    "Jednostavan pronalazač kible koji prikazuje smjer kible na karti.",
   locationAccessGranted: "Pristup lokaciji odobren.",
   latitude: "Geografska širina",
   longitude: "Geografska dužina",
@@ -601,6 +627,8 @@ const bs: Messages = {
 };
 
 const vi: Messages = {
+  appName: "Bản đồ Qibla",
+  appDescription: "Công cụ đơn giản hiển thị hướng Qibla trên bản đồ.",
   locationAccessGranted: "Đã cấp quyền truy cập vị trí.",
   latitude: "Vĩ độ",
   longitude: "Kinh độ",
@@ -658,6 +686,8 @@ const vi: Messages = {
 };
 
 const bn: Messages = {
+  appName: "কিবলা মানচিত্র",
+  appDescription: "একটি সহজ কিবলা নির্ণায়ক যা মানচিত্রে কিবলার দিক দেখায়।",
   locationAccessGranted: "অবস্থানে প্রবেশাধিকার দেওয়া হয়েছে।",
   latitude: "অক্ষাংশ",
   longitude: "দ্রাঘিমাংশ",
@@ -716,6 +746,9 @@ const bn: Messages = {
 };
 
 const sw: Messages = {
+  appName: "Ramani ya Kibla",
+  appDescription:
+    "Kitafuta kibla rahisi kinachoonyesha mwelekeo wa kibla kwenye ramani.",
   locationAccessGranted: "Ufikiaji wa eneo umeruhusiwa.",
   latitude: "Latitudo",
   longitude: "Longitudo",

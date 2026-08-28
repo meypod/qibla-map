@@ -54,6 +54,12 @@ const { coords, resume } = useGeolocation({
   timeout: 60000,
 });
 
+const { t } = useI18n();
+useHead({
+  title: () => t("appName"),
+  meta: [{ name: "description", content: () => t("appDescription") }],
+});
+
 const { remember } = useSavedLocation();
 const { remember: rememberCompass } = useSavedCompass();
 
