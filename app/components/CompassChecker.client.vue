@@ -50,91 +50,45 @@
 
 <script setup lang="ts">
 import {
-  ORIENTATION_EVENTS,
-  readMagneticHeading,
-  type OrientationEventName,
+  getOrientationPermissionRequester,
+  probeOrientationEvent,
+  type CompassCapability,
 } from "@/utils/orientation";
 
-export type CompassCheckResult = {
-  /** was compass functionality available? */
-  available: boolean;
-  /** the event to listen to on window, or null when there is no compass */
-  eventlistener: OrientationEventName | null;
-};
-
 const emit = defineEmits<{
-  (e: "result", result: CompassCheckResult): void;
+  (e: "result", result: CompassCapability): void;
 }>();
 
 const { t } = useI18n();
-
-/**
- * Sensors take time to spin up, and hardened browsers put a permission prompt
- * in front of them. A short probe expires before either can finish and reports
- * a working compass as dead, with no way back. Wait long enough that a slow but
- * healthy sensor still wins.
- */
-const PROBE_TIMEOUT_MS = 4000;
 
 type Phase = "probing" | "needs-permission" | "unavailable" | "done";
 
 const phase = ref<Phase>("probing");
 
-let stopProbe: (() => void) | null = null;
+const probeAbort = new AbortController();
 
-/**
- * iOS 13+ (and a handful of Android builds) gate orientation events behind an
- * explicit grant that may only be requested from a user gesture.
- */
-function getPermissionRequester(): (() => Promise<PermissionState>) | null {
-  if (typeof DeviceOrientationEvent === "undefined") return null;
-  const request = (
-    DeviceOrientationEvent as unknown as {
-      requestPermission?: () => Promise<PermissionState>;
-    }
-  ).requestPermission;
-  return typeof request === "function"
-    ? () => request.call(DeviceOrientationEvent)
-    : null;
+function finish(capability: CompassCapability) {
+  phase.value = "done";
+  emit("result", capability);
 }
 
-/**
- * Listen to every orientation event at once and take the first that yields a
- * heading referenced to north. Which event that is varies by browser, and the
- * one that answers is the one the map has to subscribe to later.
- */
-function probe() {
-  stopProbe?.();
+async function probe() {
   phase.value = "probing";
+  const eventlistener = await probeOrientationEvent(
+    undefined,
+    probeAbort.signal,
+  );
+  if (probeAbort.signal.aborted) return;
 
-  const teardown: (() => void)[] = [];
-  const stop = () => {
-    for (const undo of teardown.splice(0)) undo();
-    stopProbe = null;
-  };
-
-  for (const name of ORIENTATION_EVENTS) {
-    const listener = (event: Event) => {
-      if (readMagneticHeading(event) === null) return;
-      stop();
-      phase.value = "done";
-      emit("result", { available: true, eventlistener: name });
-    };
-    window.addEventListener(name, listener, true);
-    teardown.push(() => window.removeEventListener(name, listener, true));
-  }
-
-  const timer = setTimeout(() => {
-    stop();
+  if (!eventlistener) {
     phase.value = "unavailable";
-  }, PROBE_TIMEOUT_MS);
-  teardown.push(() => clearTimeout(timer));
-
-  stopProbe = stop;
+    return;
+  }
+  finish({ available: true, eventlistener });
 }
 
 async function requestPermission() {
-  const request = getPermissionRequester();
+  const request = getOrientationPermissionRequester();
   if (!request) {
     probe();
     return;
@@ -150,7 +104,7 @@ async function requestPermission() {
 }
 
 function retry() {
-  if (getPermissionRequester()) {
+  if (getOrientationPermissionRequester()) {
     phase.value = "needs-permission";
     return;
   }
@@ -158,9 +112,8 @@ function retry() {
 }
 
 function skipCompass() {
-  stopProbe?.();
-  phase.value = "done";
-  emit("result", { available: false, eventlistener: null });
+  probeAbort.abort();
+  finish({ available: false, eventlistener: null });
 }
 
 onMounted(() => {
@@ -169,7 +122,7 @@ onMounted(() => {
     return;
   }
 
-  if (getPermissionRequester()) {
+  if (getOrientationPermissionRequester()) {
     phase.value = "needs-permission";
     return;
   }
@@ -177,7 +130,7 @@ onMounted(() => {
   probe();
 });
 
-onBeforeUnmount(() => stopProbe?.());
+onBeforeUnmount(() => probeAbort.abort());
 </script>
 
 <style scoped></style>

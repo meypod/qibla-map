@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import type { CompassCheckResult } from "~/components/CompassChecker.client.vue";
 import type { LocationCheckResult } from "~/components/LocationChecker.client.vue";
+import type { CompassCapability } from "@/utils/orientation";
 
 // Matches the patience LocationChecker needs: a phone with no network
 // location backend can take the better part of a minute to produce a fix, and
@@ -31,11 +31,11 @@ const { coords, resume } = useGeolocation({
 
 const { remember } = useSavedLocation();
 
-const compassCheckResult = ref<CompassCheckResult | null>(null);
+const compassCheckResult = ref<CompassCapability | null>(null);
 const locationCheckResult = ref<LocationCheckResult | null>(null);
 const userCoordinates = ref<[number, number]>([0, 0]);
 
-function onCompassResult(e: CompassCheckResult) {
+function onCompassResult(e: CompassCapability) {
   compassCheckResult.value = e;
 }
 function onLocationResult(e: LocationCheckResult) {

@@ -21,6 +21,22 @@ export const ORIENTATION_EVENTS = [
 
 export type OrientationEventName = (typeof ORIENTATION_EVENTS)[number];
 
+/** What the device can do, and which event carries it. */
+export type CompassCapability = {
+  /** was compass functionality available? */
+  available: boolean;
+  /** the event to listen to on window, or null when there is no compass */
+  eventlistener: OrientationEventName | null;
+};
+
+/**
+ * Sensors take time to spin up, and hardened browsers put a permission prompt
+ * in front of them. A short probe expires before either can finish and reports
+ * a working compass as dead. Wait long enough that a slow but healthy sensor
+ * still wins.
+ */
+export const ORIENTATION_PROBE_TIMEOUT_MS = 4000;
+
 type CompassOrientationEvent = DeviceOrientationEvent & {
   /** WebKit-only: heading against magnetic north, already in compass sense. */
   webkitCompassHeading?: number;
@@ -72,4 +88,63 @@ export function readMagneticHeading(event: Event): number | null {
 export function angleBetween(a: number, b: number): number {
   const diff = normalizeDegrees(a - b);
   return Math.min(diff, 360 - diff);
+}
+
+/**
+ * iOS 13+ (and a handful of Android builds) gate orientation events behind an
+ * explicit grant that may only be requested from a user gesture. Returns null
+ * where no such gate exists, which is also the signal that a probe can safely
+ * run unattended.
+ */
+export function getOrientationPermissionRequester():
+  (() => Promise<PermissionState>) | null {
+  if (typeof DeviceOrientationEvent === "undefined") return null;
+  const request = (
+    DeviceOrientationEvent as unknown as {
+      requestPermission?: () => Promise<PermissionState>;
+    }
+  ).requestPermission;
+  return typeof request === "function"
+    ? () => request.call(DeviceOrientationEvent)
+    : null;
+}
+
+/**
+ * Listen to every orientation event at once and resolve with the first that
+ * yields a heading referenced to north, or null if none does before the
+ * timeout. Which event answers varies by browser, and the one that answers is
+ * the one the map has to subscribe to afterwards.
+ *
+ * Aborting resolves null; callers that would act on the result should check
+ * the signal, since null otherwise reads as "no compass".
+ */
+export function probeOrientationEvent(
+  timeoutMs = ORIENTATION_PROBE_TIMEOUT_MS,
+  signal?: AbortSignal,
+): Promise<OrientationEventName | null> {
+  return new Promise((resolve) => {
+    if (signal?.aborted) return resolve(null);
+
+    const teardown: (() => void)[] = [];
+    const finish = (result: OrientationEventName | null) => {
+      for (const undo of teardown.splice(0)) undo();
+      resolve(result);
+    };
+
+    for (const name of ORIENTATION_EVENTS) {
+      const listener = (event: Event) => {
+        if (readMagneticHeading(event) === null) return;
+        finish(name);
+      };
+      window.addEventListener(name, listener, true);
+      teardown.push(() => window.removeEventListener(name, listener, true));
+    }
+
+    const timer = setTimeout(() => finish(null), timeoutMs);
+    teardown.push(() => clearTimeout(timer));
+
+    const onAbort = () => finish(null);
+    signal?.addEventListener("abort", onAbort);
+    teardown.push(() => signal?.removeEventListener("abort", onAbort));
+  });
 }

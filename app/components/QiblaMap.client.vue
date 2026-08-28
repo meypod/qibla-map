@@ -12,16 +12,19 @@ import {
 import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
-import type { CompassCheckResult } from "./CompassChecker.client.vue";
 import { getDeclination } from "@/utils/geomag";
-import { angleBetween, readMagneticHeading } from "@/utils/orientation";
+import {
+  angleBetween,
+  readMagneticHeading,
+  type CompassCapability,
+} from "@/utils/orientation";
 import compassIcon from "@/assets/explore.svg?url";
 
 const { t } = useI18n();
 
 const props = defineProps<{
   userCoordinates: [number, number];
-  compassCheckResult: CompassCheckResult | null;
+  compassCheckResult: CompassCapability | null;
 }>();
 
 function getDirectionSecondPoint({

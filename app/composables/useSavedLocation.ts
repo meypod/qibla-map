@@ -7,6 +7,8 @@
  * a fresh fix is acquired in the background.
  */
 
+import { jsonSerializer } from "@/utils/storage";
+
 const STORAGE_KEY = "last_known_location";
 
 const MAX_LATITUDE = 90;
@@ -32,26 +34,9 @@ export function isValidCoordinates(value: unknown): value is [number, number] {
   );
 }
 
-/**
- * Explicit JSON handling. Left to infer from a null default, useLocalStorage
- * picks its "any" serializer, which writes String(value) and would persist the
- * useless text "[object Object]". Reading is defensive because local storage is
- * user-editable and may hold something this build never wrote.
- */
-const serializer = {
-  read: (raw: string): SavedLocation | null => {
-    try {
-      return JSON.parse(raw) as SavedLocation;
-    } catch {
-      return null;
-    }
-  },
-  write: (value: SavedLocation | null) => JSON.stringify(value),
-};
-
 export function useSavedLocation() {
   const stored = useLocalStorage<SavedLocation | null>(STORAGE_KEY, null, {
-    serializer,
+    serializer: jsonSerializer<SavedLocation>(),
   });
 
   // Anything on disk is user-editable and may predate a change to this shape,

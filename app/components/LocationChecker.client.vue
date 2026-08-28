@@ -107,6 +107,12 @@
 
 <script setup lang="ts">
 import type { MessageKey } from "~/i18n/messages";
+import {
+  checkGeolocationUsable,
+  describeGeolocationError,
+  isGeolocationGranted,
+  lookupPosition,
+} from "@/utils/geolocation";
 
 export type LocationCheckResult = {
   /** is GPS location available and allowed? */
@@ -121,30 +127,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 const { lastKnown, remember } = useSavedLocation();
-
-// GeolocationPositionError codes. Spelled out rather than read off the global,
-// which older WebKit does not expose under that name.
-const PERMISSION_DENIED = 1;
-const POSITION_TIMEOUT = 3;
-
-/**
- * Two-stage lookup. The first stage accepts a recent cached or network fix so
- * the map opens straight away where one exists. The second waits on a real GPS
- * fix, which on a phone without a network-location backend (de-Googled Android,
- * or a browser that blocks the network provider) routinely takes far longer
- * than a few seconds from cold. Asking for high accuracy on a short timeout,
- * as this used to, guarantees a timeout on exactly those devices.
- */
-const COARSE_OPTIONS: PositionOptions = {
-  enableHighAccuracy: false,
-  timeout: 8_000,
-  maximumAge: 60_000,
-};
-const PRECISE_OPTIONS: PositionOptions = {
-  enableHighAccuracy: true,
-  timeout: 60_000,
-  maximumAge: 0,
-};
 
 const available = ref<boolean | null>(null);
 const result = ref<LocationCheckResult | null>(null);
@@ -315,97 +297,32 @@ async function pasteCoordinates() {
   parseError.value = null;
 }
 
-function getCurrentPosition(options: PositionOptions) {
-  return new Promise<GeolocationPosition>((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  });
-}
-
-/**
- * Map a failure onto something the user can act on. Reporting every failure as
- * "permission denied", as this used to, sends people to their browser settings
- * when the real problem is a GPS that has not got a fix yet.
- */
-function describeError(error: unknown): MessageKey {
-  switch ((error as GeolocationPositionError | undefined)?.code) {
-    case PERMISSION_DENIED:
-      return "locationDenied";
-    case POSITION_TIMEOUT:
-      return "locationTimeout";
-    default:
-      return "locationUnavailable";
-  }
-}
-
 async function requestLocation() {
   if (gettingLocation.value) return;
 
-  locationError.value = null;
-
-  if (!("geolocation" in navigator)) {
+  locationError.value = checkGeolocationUsable();
+  if (locationError.value) {
     available.value = false;
-    locationError.value = "locationUnavailable";
-    return;
-  }
-
-  // Browsers only expose geolocation over https (localhost aside), and they
-  // report the refusal as a plain position error, which is impossible to act on.
-  if (!window.isSecureContext) {
-    available.value = false;
-    locationError.value = "locationInsecure";
     return;
   }
 
   gettingLocation.value = true;
   try {
-    let position: GeolocationPosition;
-    try {
-      position = await getCurrentPosition(COARSE_OPTIONS);
-    } catch (error) {
-      // No amount of waiting turns a refusal into a fix.
-      if (
-        (error as GeolocationPositionError | undefined)?.code ===
-        PERMISSION_DENIED
-      ) {
-        throw error;
-      }
+    const coordinates = await lookupPosition(() => {
       waitingForGps.value = true;
-      position = await getCurrentPosition(PRECISE_OPTIONS);
-    }
-
-    const coordinates: [number, number] = [
-      position.coords.longitude,
-      position.coords.latitude,
-    ];
+    });
     available.value = true;
     result.value = { available: true, coordinates };
     remember(coordinates);
     emitResult();
   } catch (error) {
     available.value = false;
-    locationError.value = describeError(error);
+    locationError.value = describeGeolocationError(error);
     // Fall back to whatever the user typed, so the map is still reachable.
     syncManualCoords();
   } finally {
     gettingLocation.value = false;
     waitingForGps.value = false;
-  }
-}
-
-/**
- * Whether the browser will hand over a position without interrupting the user.
- * Treated as unknown rather than denied when the Permissions API is missing or
- * refuses to answer, since the request itself is the reliable test.
- */
-async function isGeolocationGranted(): Promise<boolean | null> {
-  if (!navigator.permissions?.query) return null;
-  try {
-    const status = await navigator.permissions.query({ name: "geolocation" });
-    if (status.state === "granted") return true;
-    if (status.state === "denied") return false;
-    return null;
-  } catch {
-    return null;
   }
 }
 
