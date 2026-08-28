@@ -71,6 +71,7 @@ const en = {
   continueWithoutCompass: "Continue without compass",
   compassBlockedHint:
     "Some browsers block motion sensors by default. Check your browser's site settings and give the browser the sensors permission on your phone.",
+  findMyLocation: "Find my location",
   pwaUpdateAvailable: "New content available, click on reload button to update",
   reload: "Reload",
   close: "Close",
@@ -127,6 +128,7 @@ const fa: Messages = {
   continueWithoutCompass: "ادامه بدون قطب‌نما",
   compassBlockedHint:
     "برخی مرورگرها به‌صورت پیش‌فرض حسگرهای حرکتی را مسدود می‌کنند. تنظیمات سایت در مرورگر را بررسی کنید و اجازه دسترسی به حسگرها را به مرورگر بدهید.",
+  findMyLocation: "یافتن موقعیت من",
   pwaUpdateAvailable:
     "محتوای جدید موجود است، برای به‌روزرسانی روی دکمه بارگذاری مجدد کلیک کنید",
   reload: "بارگذاری مجدد",
@@ -177,6 +179,7 @@ const ar: Messages = {
   continueWithoutCompass: "المتابعة بدون بوصلة",
   compassBlockedHint:
     "تحجب بعض المتصفحات مستشعرات الحركة افتراضيًا. راجع إعدادات الموقع في متصفحك وامنح المتصفح إذن الوصول إلى المستشعرات على هاتفك.",
+  findMyLocation: "تحديد موقعي",
   pwaUpdateAvailable: "يتوفر محتوى جديد، انقر على زر إعادة التحميل للتحديث",
   reload: "إعادة التحميل",
   close: "إغلاق",
@@ -227,6 +230,7 @@ const tr: Messages = {
   continueWithoutCompass: "Pusulasız devam et",
   compassBlockedHint:
     "Bazı tarayıcılar hareket sensörlerini varsayılan olarak engeller. Tarayıcınızın site ayarlarını kontrol edin ve telefonunuzda tarayıcıya sensör izni verin.",
+  findMyLocation: "Konumumu bul",
   pwaUpdateAvailable:
     "Yeni içerik mevcut, güncellemek için yeniden yükle düğmesine tıklayın",
   reload: "Yeniden Yükle",
@@ -282,6 +286,7 @@ const id: Messages = {
   continueWithoutCompass: "Lanjutkan tanpa kompas",
   compassBlockedHint:
     "Beberapa peramban memblokir sensor gerak secara bawaan. Periksa pengaturan situs peramban Anda dan berikan izin sensor kepada peramban di ponsel Anda.",
+  findMyLocation: "Temukan lokasi saya",
   pwaUpdateAvailable:
     "Konten baru tersedia, klik tombol muat ulang untuk memperbarui",
   reload: "Muat Ulang",
@@ -339,6 +344,7 @@ const fr: Messages = {
   continueWithoutCompass: "Continuer sans boussole",
   compassBlockedHint:
     "Certains navigateurs bloquent les capteurs de mouvement par défaut. Vérifiez les paramètres du site dans votre navigateur et accordez-lui l'autorisation d'accès aux capteurs sur votre téléphone.",
+  findMyLocation: "Trouver ma position",
   pwaUpdateAvailable:
     "Nouveau contenu disponible, cliquez sur le bouton recharger pour mettre à jour",
   reload: "Recharger",
@@ -393,6 +399,7 @@ const ur: Messages = {
   continueWithoutCompass: "قطب نما کے بغیر جاری رکھیں",
   compassBlockedHint:
     "کچھ براؤزر بطور ڈیفالٹ موشن سینسرز کو بلاک کر دیتے ہیں۔ اپنے براؤزر کی سائٹ ترتیبات دیکھیں اور فون پر براؤزر کو سینسرز کی اجازت دیں۔",
+  findMyLocation: "میرا مقام تلاش کریں",
   pwaUpdateAvailable:
     "نیا مواد دستیاب ہے، اپ ڈیٹ کے لیے ری لوڈ بٹن پر کلک کریں",
   reload: "دوبارہ لوڈ کریں",
@@ -448,6 +455,7 @@ const hi: Messages = {
   continueWithoutCompass: "कम्पास के बिना जारी रखें",
   compassBlockedHint:
     "कुछ ब्राउज़र डिफ़ॉल्ट रूप से मोशन सेंसर ब्लॉक करते हैं। अपने ब्राउज़र की साइट सेटिंग्स देखें और फ़ोन पर ब्राउज़र को सेंसर की अनुमति दें।",
+  findMyLocation: "मेरा स्थान खोजें",
   pwaUpdateAvailable:
     "नई सामग्री उपलब्ध है, अपडेट करने के लिए रीलोड बटन पर क्लिक करें",
   reload: "पुनः लोड करें",
@@ -506,6 +514,7 @@ const de: Messages = {
   continueWithoutCompass: "Ohne Kompass fortfahren",
   compassBlockedHint:
     "Manche Browser blockieren Bewegungssensoren standardmäßig. Prüfen Sie die Seiteneinstellungen Ihres Browsers und erteilen Sie dem Browser auf dem Telefon die Sensorberechtigung.",
+  findMyLocation: "Meinen Standort finden",
   pwaUpdateAvailable:
     "Neuer Inhalt verfügbar, klicken Sie zum Aktualisieren auf die Schaltfläche Neu laden",
   reload: "Neu laden",
@@ -561,6 +570,7 @@ const bs: Messages = {
   continueWithoutCompass: "Nastavi bez kompasa",
   compassBlockedHint:
     "Neki preglednici podrazumijevano blokiraju senzore pokreta. Provjerite postavke stranice u pregledniku i dajte pregledniku dozvolu za senzore na telefonu.",
+  findMyLocation: "Pronađi moju lokaciju",
   pwaUpdateAvailable:
     "Novi sadržaj je dostupan, kliknite na dugme za ponovno učitavanje da ažurirate",
   reload: "Ponovo učitaj",
@@ -616,6 +626,7 @@ const vi: Messages = {
   continueWithoutCompass: "Tiếp tục mà không dùng la bàn",
   compassBlockedHint:
     "Một số trình duyệt chặn cảm biến chuyển động theo mặc định. Hãy kiểm tra cài đặt trang trong trình duyệt và cấp quyền cảm biến cho trình duyệt trên điện thoại.",
+  findMyLocation: "Tìm vị trí của tôi",
   pwaUpdateAvailable: "Đã có nội dung mới, nhấp vào nút tải lại để cập nhật",
   reload: "Tải lại",
   close: "Đóng",
@@ -670,6 +681,7 @@ const bn: Messages = {
   continueWithoutCompass: "কম্পাস ছাড়াই চালিয়ে যান",
   compassBlockedHint:
     "কিছু ব্রাউজার ডিফল্টভাবে মোশন সেন্সর বন্ধ রাখে। ব্রাউজারের সাইট সেটিংস দেখুন এবং ফোনে ব্রাউজারকে সেন্সরের অনুমতি দিন।",
+  findMyLocation: "আমার অবস্থান খুঁজুন",
   pwaUpdateAvailable:
     "নতুন কন্টেন্ট উপলব্ধ, আপডেট করতে রিলোড বোতামে ক্লিক করুন",
   reload: "রিলোড",
@@ -725,6 +737,7 @@ const sw: Messages = {
   continueWithoutCompass: "Endelea bila dira",
   compassBlockedHint:
     "Baadhi ya vivinjari huzuia vitambuzi vya mwendo kwa chaguo-msingi. Angalia mipangilio ya tovuti katika kivinjari chako na kipe kivinjari ruhusa ya vitambuzi kwenye simu yako.",
+  findMyLocation: "Tafuta mahali nilipo",
   pwaUpdateAvailable:
     "Maudhui mapya yanapatikana, bofya kitufe cha kupakia upya ili kusasisha",
   reload: "Pakia upya",

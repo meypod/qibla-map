@@ -12,6 +12,7 @@ import {
 import { LngLat, type StyleSpecification } from "maplibre-gl";
 import { Coordinates, Qibla } from "adhan";
 import type { GeoJSON } from "geojson";
+import type { MessageKey } from "~/i18n/messages";
 import { getDeclination } from "@/utils/geomag";
 import {
   angleBetween,
@@ -26,7 +27,13 @@ const { t } = useI18n();
 const props = defineProps<{
   userCoordinates: [number, number];
   compassCheckResult: CompassCapability | null;
+  /** a location lookup is in flight, started from the locate button */
+  locating: boolean;
+  /** why the lookup is slow, or why it failed; null when there is nothing to say */
+  locateMessage: MessageKey | null;
 }>();
+
+const emit = defineEmits<{ (e: "locate"): void }>();
 
 function getDirectionSecondPoint({
   lat,
@@ -327,6 +334,26 @@ watch(
         }"
       />
     </mgl-geo-json-source>
+    <button
+      class="fixed top-1 right-1 p-2 flex items-center justify-center rounded border bg-black/60 border-black/50 text-white disabled:cursor-not-allowed"
+      :title="t('findMyLocation')"
+      :aria-label="t('findMyLocation')"
+      :aria-busy="locating"
+      :disabled="locating"
+      @click="emit('locate')"
+    >
+      <loading-spinner v-if="locating" class="size-6" />
+      <locate-icon v-else class="size-6" />
+    </button>
+
+    <p
+      v-if="locateMessage"
+      class="fixed top-14 right-1 max-w-56 p-2 rounded bg-black/70 text-white text-xs"
+      role="status"
+    >
+      {{ t(locateMessage) }}
+    </p>
+
     <button
       v-if="compassCheckResult?.available"
       class="p-1 flex items-center fixed bottom-1 border left-1 text-white gap-1 rounded text-sm"
