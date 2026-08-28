@@ -21,13 +21,28 @@ export const ORIENTATION_EVENTS = [
 
 export type OrientationEventName = (typeof ORIENTATION_EVENTS)[number];
 
-/** What the device can do, and which event carries it. */
-export type CompassCapability = {
-  /** was compass functionality available? */
-  available: boolean;
-  /** the event to listen to on window, or null when there is no compass */
-  eventlistener: OrientationEventName | null;
+/**
+ * What the device can do, and which event carries it.
+ *
+ * A union rather than two loose fields, so "usable but no event to listen to"
+ * cannot be expressed at all.
+ */
+export type CompassCapability =
+  | { available: true; eventlistener: OrientationEventName }
+  | { available: false; eventlistener: null };
+
+/** The capability of a device that cannot report a heading. */
+export const NO_COMPASS: CompassCapability = {
+  available: false,
+  eventlistener: null,
 };
+
+/** Build a capability from a probe result. */
+export function capabilityFor(
+  eventlistener: OrientationEventName | null,
+): CompassCapability {
+  return eventlistener ? { available: true, eventlistener } : NO_COMPASS;
+}
 
 /**
  * Sensors take time to spin up, and hardened browsers put a permission prompt

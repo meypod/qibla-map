@@ -37,6 +37,7 @@ import {
   lookupPosition,
 } from "@/utils/geolocation";
 import {
+  capabilityFor,
   getOrientationPermissionRequester,
   probeOrientationEvent,
   type CompassCapability,
@@ -97,31 +98,29 @@ function startLiveWatch() {
 }
 
 /**
- * A remembered capability got us past the start-up check without waiting for
- * the probe. Confirm it against the device now, in the background, so a
- * compass that has since appeared or stopped working is picked up. Skipped
- * where permission gates the sensor, because an unattended probe there would
- * find nothing and wrongly record that there is no compass.
+ * The start-up check handed back an answer it did not measure: one remembered
+ * from a previous launch, or an unavailable stand-in because the user chose
+ * not to wait. Measure it properly now, in the background, so a compass that
+ * has since appeared or stopped working is picked up either way.
+ *
+ * Skipped where permission gates the sensor, because an unattended probe there
+ * would find nothing and wrongly record that there is no compass.
  */
 async function confirmCompass() {
   if (getOrientationPermissionRequester()) return;
   if (document.visibilityState !== "visible") return;
 
-  const eventlistener = await probeOrientationEvent();
-  const capability: CompassCapability = eventlistener
-    ? { available: true, eventlistener }
-    : { available: false, eventlistener: null };
-
+  const capability = capabilityFor(await probeOrientationEvent());
   rememberCompass(capability);
   compassCheckResult.value = capability;
 }
 
 function onCompassResult(
   result: CompassCapability,
-  meta: { fromCache: boolean },
+  meta: { provisional: boolean },
 ) {
   compassCheckResult.value = result;
-  if (meta.fromCache) confirmCompass();
+  if (meta.provisional) confirmCompass();
 }
 
 function onLocationResult(e: LocationCheckResult) {

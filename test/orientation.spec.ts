@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   angleBetween,
+  capabilityFor,
   normalizeDegrees,
   readMagneticHeading,
 } from "@/utils/orientation";
@@ -71,5 +72,18 @@ describe("readMagneticHeading", () => {
     expect(
       readMagneticHeading(event({ absolute: true, alpha: Number.NaN })),
     ).toBeNull();
+  });
+});
+
+describe("capabilityFor", () => {
+  it("pairs availability with the event that carries it", () => {
+    expect(capabilityFor("deviceorientationabsolute")).toEqual({
+      available: true,
+      eventlistener: "deviceorientationabsolute",
+    });
+    expect(capabilityFor(null)).toEqual({
+      available: false,
+      eventlistener: null,
+    });
   });
 });

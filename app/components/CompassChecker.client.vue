@@ -50,13 +50,24 @@
 
 <script setup lang="ts">
 import {
+  capabilityFor,
   getOrientationPermissionRequester,
   probeOrientationEvent,
+  NO_COMPASS,
   type CompassCapability,
 } from "@/utils/orientation";
 
 const emit = defineEmits<{
-  (e: "result", result: CompassCapability, meta: { fromCache: boolean }): void;
+  (
+    e: "result",
+    result: CompassCapability,
+    /**
+     * `provisional` means this answer was not measured just now: it came from
+     * a previous launch, or the user chose not to wait. The caller should
+     * confirm it against the device in the background.
+     */
+    meta: { provisional: boolean },
+  ): void;
 }>();
 
 const { t } = useI18n();
@@ -66,29 +77,35 @@ type Phase = "probing" | "needs-permission" | "unavailable" | "done";
 
 const phase = ref<Phase>("probing");
 
-const probeAbort = new AbortController();
+// One controller per probe. A shared one stays aborted once used, which would
+// leave any later probe resolving instantly and the UI stuck on "probing".
+let currentProbe: AbortController | null = null;
 
-function finish(capability: CompassCapability, fromCache = false) {
+function announce(capability: CompassCapability, provisional: boolean) {
   phase.value = "done";
-  if (!fromCache) remember(capability);
-  emit("result", capability, { fromCache });
+  emit("result", capability, { provisional });
 }
 
 async function probe() {
+  currentProbe?.abort();
+  const attempt = new AbortController();
+  currentProbe = attempt;
   phase.value = "probing";
-  const eventlistener = await probeOrientationEvent(
-    undefined,
-    probeAbort.signal,
-  );
-  if (probeAbort.signal.aborted) return;
 
-  if (!eventlistener) {
-    // Record the miss too: it is what lets the next launch skip this wait.
-    remember({ available: false, eventlistener: null });
+  const eventlistener = await probeOrientationEvent(undefined, attempt.signal);
+  if (attempt.signal.aborted) return;
+  currentProbe = null;
+
+  const capability = capabilityFor(eventlistener);
+  // Record what was actually measured, misses included: the miss is what lets
+  // the next launch skip this wait.
+  remember(capability);
+
+  if (!capability.available) {
     phase.value = "unavailable";
     return;
   }
-  finish({ available: true, eventlistener });
+  announce(capability, false);
 }
 
 async function requestPermission() {
@@ -115,9 +132,16 @@ function retry() {
   probe();
 }
 
+/**
+ * Move on without waiting. Deliberately does not record anything: choosing not
+ * to wait says nothing about whether the device has a compass, and storing it
+ * as though it did would hide the compass on hardware that works. The answer
+ * is marked provisional so the caller measures it properly in the background.
+ */
 function skipCompass() {
-  probeAbort.abort();
-  finish({ available: false, eventlistener: null });
+  currentProbe?.abort();
+  currentProbe = null;
+  announce(NO_COMPASS, true);
 }
 
 onMounted(() => {
@@ -135,13 +159,10 @@ onMounted(() => {
 
   const remembered = lastKnown.value;
   if (remembered) {
-    // Go straight through on what we knew last time. index.vue re-probes in
-    // the background and corrects this if the device has changed since.
-    finish(
-      {
-        available: remembered.available,
-        eventlistener: remembered.eventlistener,
-      },
+    announce(
+      remembered.available
+        ? { available: true, eventlistener: remembered.eventlistener }
+        : NO_COMPASS,
       true,
     );
     return;
@@ -150,7 +171,7 @@ onMounted(() => {
   probe();
 });
 
-onBeforeUnmount(() => probeAbort.abort());
+onBeforeUnmount(() => currentProbe?.abort());
 </script>
 
 <style scoped></style>

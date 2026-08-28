@@ -25,13 +25,14 @@ export type SavedCompass = CompassCapability & {
 function isValidSavedCompass(value: unknown): value is SavedCompass {
   if (!value || typeof value !== "object") return false;
   const { available, eventlistener } = value as SavedCompass;
-  if (typeof available !== "boolean") return false;
-  return (
-    eventlistener === null ||
-    (ORIENTATION_EVENTS as readonly string[]).includes(
+  // The pair has to agree: a usable compass names its event, an unusable one
+  // names none. Anything else was written by a different build, or by hand.
+  if (available === true) {
+    return (ORIENTATION_EVENTS as readonly string[]).includes(
       eventlistener as OrientationEventName,
-    )
-  );
+    );
+  }
+  return available === false && eventlistener === null;
 }
 
 export function useSavedCompass() {
