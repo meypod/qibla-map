@@ -56,10 +56,11 @@ import {
 } from "@/utils/orientation";
 
 const emit = defineEmits<{
-  (e: "result", result: CompassCapability): void;
+  (e: "result", result: CompassCapability, meta: { fromCache: boolean }): void;
 }>();
 
 const { t } = useI18n();
+const { lastKnown, remember } = useSavedCompass();
 
 type Phase = "probing" | "needs-permission" | "unavailable" | "done";
 
@@ -67,9 +68,10 @@ const phase = ref<Phase>("probing");
 
 const probeAbort = new AbortController();
 
-function finish(capability: CompassCapability) {
+function finish(capability: CompassCapability, fromCache = false) {
   phase.value = "done";
-  emit("result", capability);
+  if (!fromCache) remember(capability);
+  emit("result", capability, { fromCache });
 }
 
 async function probe() {
@@ -81,6 +83,8 @@ async function probe() {
   if (probeAbort.signal.aborted) return;
 
   if (!eventlistener) {
+    // Record the miss too: it is what lets the next launch skip this wait.
+    remember({ available: false, eventlistener: null });
     phase.value = "unavailable";
     return;
   }
@@ -122,8 +126,24 @@ onMounted(() => {
     return;
   }
 
+  // A permission gate has to be answered in this page session, so a remembered
+  // answer says nothing about whether events will arrive now. Ask, as before.
   if (getOrientationPermissionRequester()) {
     phase.value = "needs-permission";
+    return;
+  }
+
+  const remembered = lastKnown.value;
+  if (remembered) {
+    // Go straight through on what we knew last time. index.vue re-probes in
+    // the background and corrects this if the device has changed since.
+    finish(
+      {
+        available: remembered.available,
+        eventlistener: remembered.eventlistener,
+      },
+      true,
+    );
     return;
   }
 

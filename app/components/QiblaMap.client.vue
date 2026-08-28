@@ -17,6 +17,7 @@ import {
   angleBetween,
   readMagneticHeading,
   type CompassCapability,
+  type OrientationEventName,
 } from "@/utils/orientation";
 import compassIcon from "@/assets/explore.svg?url";
 
@@ -170,7 +171,7 @@ const isFacingKaaba = computed(
 
 const compassLockEnabled = ref(false);
 
-const listeningToOrientation = ref(false);
+const listeningTo = ref<OrientationEventName | null>(null);
 
 const map = useMap();
 
@@ -192,17 +193,23 @@ function onOrientationChanged(event: Event) {
 const evtOptions: AddEventListenerOptions = { passive: true };
 
 function stopListeningToOrientation() {
-  const evt = props.compassCheckResult?.eventlistener;
-  if (!evt) return;
-  window.removeEventListener(evt, onOrientationChanged, evtOptions);
-  listeningToOrientation.value = false;
+  // Unsubscribe from whatever we actually attached to. Reading the prop here
+  // would miss if the capability changed underneath us.
+  if (!listeningTo.value) return;
+  window.removeEventListener(
+    listeningTo.value,
+    onOrientationChanged,
+    evtOptions,
+  );
+  listeningTo.value = null;
 }
 
 function startListeningToOrientation() {
   const evt = props.compassCheckResult?.eventlistener;
-  if (!evt) return;
+  if (!evt || listeningTo.value === evt) return;
+  stopListeningToOrientation();
   window.addEventListener(evt, onOrientationChanged, evtOptions);
-  listeningToOrientation.value = true;
+  listeningTo.value = evt;
 }
 
 function toggleCompassLock() {
@@ -215,9 +222,7 @@ function toggleCompassLock() {
     return;
   }
 
-  if (!listeningToOrientation.value) {
-    startListeningToOrientation();
-  }
+  startListeningToOrientation();
   // immediately align map bearing with the current compass heading
   try {
     map.map?.rotateTo(compassDegrees.value, { duration: 0 });
@@ -225,6 +230,21 @@ function toggleCompassLock() {
     // ignore if map isn't ready yet
   }
 }
+
+// The background re-probe can change the answer after the map is already up:
+// a compass that turned out not to work, or one reporting through a different
+// event than last launch.
+watch(
+  () => props.compassCheckResult,
+  (capability) => {
+    if (capability?.available !== true) {
+      compassLockEnabled.value = false;
+      stopListeningToOrientation();
+      return;
+    }
+    if (compassLockEnabled.value) startListeningToOrientation();
+  },
+);
 
 onBeforeUnmount(stopListeningToOrientation);
 
