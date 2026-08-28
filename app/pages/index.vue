@@ -18,12 +18,18 @@
 import type { CompassCheckResult } from "~/components/CompassChecker.client.vue";
 import type { LocationCheckResult } from "~/components/LocationChecker.client.vue";
 
+// Matches the patience LocationChecker needs: a phone with no network
+// location backend can take the better part of a minute to produce a fix, and
+// a short timeout here would abandon the live position on exactly the devices
+// that most need it.
 const { coords, resume } = useGeolocation({
   enableHighAccuracy: true,
   maximumAge: 10000,
   immediate: false,
-  timeout: 10000,
+  timeout: 60000,
 });
+
+const { remember } = useSavedLocation();
 
 const compassCheckResult = ref<CompassCheckResult | null>(null);
 const locationCheckResult = ref<LocationCheckResult | null>(null);
@@ -41,9 +47,18 @@ function onLocationResult(e: LocationCheckResult) {
 }
 
 watch(coords, () => {
-  if (locationCheckResult.value?.available) {
-    userCoordinates.value = [coords.value.longitude, coords.value.latitude];
-  }
+  if (!locationCheckResult.value?.available) return;
+
+  const next: [number, number] = [
+    coords.value.longitude,
+    coords.value.latitude,
+  ];
+  // useGeolocation seeds coords with Infinity until the first fix arrives.
+  if (!isValidCoordinates(next)) return;
+
+  userCoordinates.value = next;
+  // Keep the remembered position warm so the next launch starts here.
+  remember(next);
 });
 </script>
 

@@ -120,9 +120,7 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-
-const MAX_LATITUDE = 90;
-const MAX_LONGITUDE = 180;
+const { lastKnown, remember } = useSavedLocation();
 
 // GeolocationPositionError codes. Spelled out rather than read off the global,
 // which older WebKit does not expose under that name.
@@ -160,14 +158,7 @@ const waitingForGps = ref(false);
 const locationError = ref<MessageKey | null>(null);
 
 function isValidCoordinate(lat: unknown, long: unknown): boolean {
-  return (
-    typeof lat === "number" &&
-    Number.isFinite(lat) &&
-    Math.abs(lat) <= MAX_LATITUDE &&
-    typeof long === "number" &&
-    Number.isFinite(long) &&
-    Math.abs(long) <= MAX_LONGITUDE
-  );
+  return isValidCoordinates([long, lat]);
 }
 
 const manualCoordsEntered = computed(
@@ -190,9 +181,14 @@ function syncManualCoords() {
   if (available.value === true) return;
 
   const { lat, long } = savedCoords.value;
-  result.value = isValidCoordinate(lat, long)
-    ? { available: false, coordinates: [long as number, lat as number] }
-    : null;
+  if (!isValidCoordinate(lat, long)) {
+    result.value = null;
+    return;
+  }
+
+  const coordinates: [number, number] = [long as number, lat as number];
+  result.value = { available: false, coordinates };
+  remember(coordinates);
 }
 
 watch(savedCoords, syncManualCoords, { deep: true, immediate: true });
@@ -377,11 +373,13 @@ async function requestLocation() {
       position = await getCurrentPosition(PRECISE_OPTIONS);
     }
 
+    const coordinates: [number, number] = [
+      position.coords.longitude,
+      position.coords.latitude,
+    ];
     available.value = true;
-    result.value = {
-      available: true,
-      coordinates: [position.coords.longitude, position.coords.latitude],
-    };
+    result.value = { available: true, coordinates };
+    remember(coordinates);
     emitResult();
   } catch (error) {
     available.value = false;
@@ -394,8 +392,42 @@ async function requestLocation() {
   }
 }
 
-onMounted(() => {
-  requestLocation();
+/**
+ * Whether the browser will hand over a position without interrupting the user.
+ * Treated as unknown rather than denied when the Permissions API is missing or
+ * refuses to answer, since the request itself is the reliable test.
+ */
+async function isGeolocationGranted(): Promise<boolean | null> {
+  if (!navigator.permissions?.query) return null;
+  try {
+    const status = await navigator.permissions.query({ name: "geolocation" });
+    if (status.state === "granted") return true;
+    if (status.state === "denied") return false;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+onMounted(async () => {
+  const remembered = lastKnown.value;
+  if (!remembered) {
+    requestLocation();
+    return;
+  }
+
+  // Open the map on the remembered position straight away. index.vue keeps
+  // watching the live position from there, so a fresh fix replaces this one as
+  // soon as it lands, and the browser raises its own permission prompt if it
+  // still needs one. Skip the live watch only when permission is already known
+  // to be refused, which no amount of waiting will change.
+  const granted = await isGeolocationGranted();
+  available.value = granted === true ? true : null;
+  result.value = {
+    available: granted !== false,
+    coordinates: remembered.coordinates,
+  };
+  emitResult();
 });
 </script>
 
